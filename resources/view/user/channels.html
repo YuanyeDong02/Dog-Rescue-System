@@ -1,0 +1,48 @@
+{include file="user/header"}
+
+<head>
+    <title>转运方式与报价</title>
+    {css href="/static/css/userIndex.css" /}
+</head>
+
+<body>
+<div class="page-wrapper">
+    <div class="page-header d-print-none">
+        <div class="container-xl"
+             style="width: 100%;
+                 padding-right: 15px;
+                 padding-left: 15px;
+                 margin-right: auto;
+                 margin-left: 20px;">
+            <div class="row g-2 align-items-center">
+                <div class="col">
+                    <h2 class="page-title">
+                        转运渠道列表
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row" id="channelCards">
+                {volist name="channels" id="channel"}
+                <div class="col-md-4">
+                        <div class="card border-wide border-warning rounded-3" style="margin-bottom: 1.5rem">
+                            <div class="card-header">
+                                <h3 class="card-title"><strong>{$channel.name}</strong></h3>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>时效（天）：</strong>{$channel.effectiveness}</p>
+                                <p><strong>首重价格（元/0.5kg）：</strong>{$channel.firstPrice}</p>
+                                <p><strong>续重价格（元/0.5kg）：</strong>{$channel.laterPrice}</p>
+                                <p><strong>备注：</strong>{$channel.comment}</p>
+                            </div>
+                        </div>
+                    </div>
+                {/volist}
+            </div>
+        </div>
+    </div>
+</div>
+</body>

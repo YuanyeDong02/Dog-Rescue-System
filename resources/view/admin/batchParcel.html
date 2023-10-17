@@ -1,0 +1,85 @@
+{include file="admin/header"}
+
+<head>
+    <title>批量录入</title>
+</head>
+
+<body>
+<div class="page-wrapper">
+    <div class="container">
+        <div class="page-content">
+            <div class="card" style="margin-top: 26px">
+                <div class="card-header">
+                    <h3 class="card-title">录入快递单号</h3>
+                    <a class='btn btn-danger' href='/admin/index' style="margin-left: auto"><i></i>取消</a>
+                </div>
+                <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">批量添加</label>
+                            <textarea class="form-control" name="data" placeholder="一行一条" required rows="20"></textarea>
+                        </div>
+                        <button class="btn btn-primary batch-submit" type="submit">批量录入快递</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.querySelector('.batch-submit').addEventListener('click', function (event) {
+        var input = document.querySelector('textarea[name="data"]').value;
+        if (input.trim() === '') {
+            Swal.fire({
+                icon: 'error',
+                title: '错误',
+                text: '请输入快递单号'
+            });
+            return;
+        }
+        var data = {
+            data: input,
+            method: 'batch'
+        };
+        fetch('/admin/batchParcel', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error('请求失败');
+                }
+                return response.json();
+            })
+            .then(function (result) {
+                if (result.ret === 1) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '成功',
+                        text: result.msg,
+                        showConfirmButton: true,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        allowOutsideClick: false
+                    }).then(function () {
+                        window.location.href = '/admin/parcels';
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '错误',
+                        text: result.msg
+                    });
+                }
+            })
+            .catch(function (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: '错误',
+                    text: '系统错误'
+                });
+            });
+    });
+</script>
+</body>

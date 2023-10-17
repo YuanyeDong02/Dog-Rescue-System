@@ -1,0 +1,276 @@
+{include file="admin/header"}
+
+<title>订单处理</title>
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<link href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" rel="stylesheet" type="text/css"/>
+<body>
+<div class="page-wrapper">
+    <div class="container">
+        <div class="page-content">
+            <div class="card" style="margin-top: 2%;margin-bottom: 2%">
+                <div class="card-header">
+                    <h3 class="card-title">订单详情</h3>
+                </div>
+                <div class="card-body">
+                    <!--                    <span class="status-dot status-dot-animated bg-green d-block"></span>-->
+                    <h2>订单号: {$order.orderID}</h2>
+                    <hr>
+                    <p>收件人: {$order.receiver}</p>
+                    <p>收件人电话: {$order.tel}</p>
+                    <p>收件人地址:</p>
+                    <p>{$order.line1}</p>
+                    {if $order.line2 != null}
+                    <p>{$order.line2}</p>
+                    {/if}
+                    {if $order.line3 != null}
+                    <p>{$order.line3}</p>
+                    {/if}
+                    <p>{$order.city}</p>
+                    <p>{$order.postcode}</p>
+                    <p>{$order.country}</p>
+                    {if $order.comment!=null}
+                    <hr>
+                    <p>用户备注：{$order.comment}</p>
+                    {/if}
+                    <hr>
+                    <div class="datagrid">
+                        <div class="datagrid-item">
+                            <div class="datagrid-title">预选渠道</div>
+                            <div class="datagrid-content">{$order.channelName}</div>
+                        </div>
+                        <div class="datagrid-item">
+                            <div class="datagrid-title">首重</div>
+                            <div class="datagrid-content">{$order.firstprice}</div>
+                        </div>
+                        <div class="datagrid-item">
+                            <div class="datagrid-title">续重</div>
+                            <div class="datagrid-content">{$order.laterprice}</div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="datagrid">
+                        <div class="datagrid-item">
+                            <div class="datagrid-title">支付状态</div>
+                            <div class="datagrid-content">{$order.paymentStatus?"已支付":"未支付"}</div>
+                        </div>
+                        <div class="datagrid-item">
+                            <div class="datagrid-title">订单金额</div>
+                            <div class="datagrid-content">{$order.price==null?"未处理":$order.price." 元"}</div>
+                        </div>
+                        <div class="datagrid-item">
+                            <div class="datagrid-title">订单状态</div>
+                            <div class="datagrid-content">{$order.dispatchStatus?"已出仓":"未出仓"}</div>
+                        </div>
+                        <div class="datagrid-item">
+                            <div class="datagrid-title">下单时间</div>
+                            <div class="datagrid-content">{$order.createAt}</div>
+                        </div>
+                        <div class="datagrid-item">
+                            <div class="datagrid-title">货物重量</div>
+                            <div class="datagrid-content">{$order.weight==null?"未处理":$order.weight." g"}</div>
+                        </div>
+                        <div class="datagrid-item">
+                            <div class="datagrid-title">用户名</div>
+                            <div class="datagrid-content">{$order.username}</div>
+                        </div>
+                        <div class="datagrid-item">
+                            <div class="datagrid-title">用户手机号</div>
+                            <div class="datagrid-content">{$order.tel}</div>
+                        </div>
+                        <div class="datagrid-item">
+                            <div class="datagrid-title">积分抵扣</div>
+                            <div class="datagrid-content">
+                            {if $order.payWithPoint}
+                            用户积分抵扣{$userPoints}元
+                            {else}
+                            不使用积分
+                            {/if}
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    {if $order.payWithPoint}
+                    <div class="alert alert-danger" role="alert">
+                      积分抵扣会在用户支付时自动扣除
+                    </div>
+                    {/if}
+                    <hr>
+                    <form action="" autocomplete="off" enctype="multipart/form-data" id="detail" method="post">
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="orderWeight">总重（g）：</label>
+                                <div class="input-group">
+                                    <input class="form-control" id="orderWeight" name="orderWeight" required
+                                           type="text">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <label for="orderPrice">金额（元）：</label>
+                                <div class="input-group">
+                                    <input class="form-control" id="orderPrice" name="orderPrice" required
+                                           style="display: inline"
+                                           type="text">
+                                    <button class="btn btn-primary" id="calculateButton" style="display: inline"
+                                            type="button">计算金额
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <p>上传包裹图片：</p>
+                        <div class="dropzone" id="myDropzone"></div>
+                    </form>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                  <button class="btn btn-primary submit" data-id="{$order.orderID}" type="submit">
+                    确认订单
+                  </button>
+                  <span class="text-muted">重复处理订单会覆盖数据与图片</span>
+                  <button class="btn btn-danger delete-button" data-id="{$order.uid}">删除</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // 获取相关元素
+    const orderWeightInput = document.getElementById('orderWeight');
+    const orderPriceInput = document.getElementById('orderPrice');
+    const calculateButton = document.getElementById('calculateButton');
+
+    // 定义计算金额的函数
+    function calculatePrice() {
+        const firstPrice = {$order.firstprice}; // 首重价格
+        const laterPrice = {$order.laterprice}; // 续重价格
+        const weight = parseInt(orderWeightInput.value); // 获取输入的总重量
+        // 计算金额
+        let price;
+        if (weight <= 500) {
+            price = firstPrice;
+        } else {
+            const additionalWeight = weight - 500;
+            const additionalPackages = additionalWeight / 500;
+            price = firstPrice + additionalPackages * laterPrice;
+        }
+        orderPriceInput.value = price.toFixed(2); // 显示计算结果
+    }
+
+    // 绑定按钮点击事件
+    calculateButton.addEventListener('click', calculatePrice);
+</script>
+<script>
+    Dropzone.options.myDropzone = {
+        url: '/admin/orders/handle',
+        dictDefaultMessage: "拖放文件到这里或点击上传",
+        autoProcessQueue: false,
+        uploadMultiple: true,
+        parallelUploads: 5,
+        maxFiles: 10,
+        maxFilesize: 10,
+        acceptedFiles: 'image/*',
+        addRemoveLinks: true,
+        resizeWidth: 1024,
+        resizeMimeType: 'image/jpeg',
+        init: function () {
+            dzClosure = this;
+            document.querySelector('.submit').addEventListener("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                dzClosure.processQueue();
+            });
+            this.on("sendingmultiple", function (data, xhr, formData) {
+                formData.append("orderID", jQuery(".submit").attr("data-id"));
+                formData.append("orderWeight", jQuery("#orderWeight").val());
+                formData.append("orderPrice", jQuery("#orderPrice").val());
+            });
+            this.on("successmultiple", function (files, response) {
+                if (response.ret === 1) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '成功',
+                        text: response.msg,
+                        showConfirmButton: true,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        allowOutsideClick: false
+                    }).then(function () {
+                        window.location.href = '/admin/orders';
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '错误',
+                        text: response.msg
+                    });
+                }
+            });
+            this.on("errormultiple", function (files, response) {
+                Swal.fire({
+                    icon: 'error',
+                    title: '错误',
+                    text: '系统错误'
+                });
+            });
+        }
+    }
+</script>
+<script>
+    var deleteButtons = document.querySelectorAll('.delete-button');
+    deleteButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var id = button.getAttribute('data-id');
+            Swal.fire({
+                title: '您确定删除该订单吗？',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '确定删除',
+                cancelButtonText: '取消'
+            }).then(function (result) {
+                if (result.value) {
+                    fetch('/admin/orders/delete/' + id, {
+                        method: 'DELETE'
+                    }).then(function (response) {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error('请求失败');
+                        }
+                    }).then(data => {
+                        if (data.ret === 1) {
+                            Swal.fire({
+                                title: '成功',
+                                text: data.msg,
+                                confirmButtonText: '确定',
+                                icon: 'success'
+                            }).then(function (result) {
+                                if (result.value) {
+                                    window.location.href = '/admin/orders';
+                                }
+                            });
+                            setTimeout(function () {
+                                window.location.href = '/admin/orders';
+                            }, 2000);
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: '错误',
+                                text: data.msg,
+                            });
+                        }
+                    }).catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '错误',
+                            text: '系统错误'
+                        }).then(function (result) {
+                            if (result.value) {
+                                location.reload();
+                            }
+                        });
+                    });
+                }
+            });
+        });
+    });
+</script>
+</body>

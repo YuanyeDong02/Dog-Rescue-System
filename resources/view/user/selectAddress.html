@@ -1,0 +1,64 @@
+{include file="user/header"}
+
+<head>
+    <title>选择地址</title>
+</head>
+
+<body>
+<div class="page-wrapper">
+    <div class="container">
+        <div class="page-content">
+            <div class="card" style="margin-top: 2%">
+                <div class="card-header">
+                    <h2 class="card-title">我的地址</h2>
+                    <a class='btn btn-danger' onclick="goBack()" style="margin-left: auto"><i></i>取消</a>
+                </div>
+                <div class="card-body">
+                    <div class="container-xl">
+                        <div class="row row-cards">
+                            {if $addresses->isEmpty()}
+                            <h3>暂无数据</h3>
+                            {else}
+                            {volist name="addresses" id="address"}
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">{$address.receiver}</h3>
+                                        <div class="card-actions">
+                                            <a href="/user/orders/add?addressId={$address.id}" class="btn btn-primary btn-pill w-100">选择</a>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        {$address.line1}<br>
+                                        {$address.line2}<br>
+                                        {$address.line3}<br>
+                                        {$address.city}, {$address.postcode}<br>
+                                        {$address.country}<br>
+                                        <svg class="icon icon-tabler icon-tabler-phone"
+                                             fill="none" height="44" stroke="#2c3e50"
+                                             stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                             viewBox="0 0 24 24"
+                                             width="44" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M0 0h24v24H0z" fill="none" stroke="none"/>
+                                            <path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2"/>
+                                        </svg>
+                                        {$address.tel}<br>
+                                    </div>
+                                </div>
+                            </div>
+                            {/volist}
+                            {/if}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</body>

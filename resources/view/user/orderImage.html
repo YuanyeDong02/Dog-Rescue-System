@@ -1,0 +1,34 @@
+{include file="user/header"}
+
+<head>
+    <title>图片查看</title>
+</head>
+<body>
+<div class="page-wrapper">
+    <div class="page-header d-print-none">
+        <div class="container-xl">
+            <div class="row g-2 align-items-center">
+                <div class="col">
+                    <a class='btn btn-dark' onclick="window.close()" style="margin-left: 1000px"><i class="fas fa-back"></i>返回</a>
+                </div>
+                <div class="page-body">
+                    <div class="container-xl">
+                        <div class="row g-2 g-md-3">
+                            {volist name="images" id="image"}
+                            <div class="col-6">
+                                <a data-fslightbox="gallery" href="/user/getOrderImage/{$image.md5}">
+                                    <div class="img-responsive img-responsive-3x3 rounded-3 border"
+                                         style="background-image: url(/user/getOrderImage/{$image.md5})"></div>
+                                </a>
+                            </div>
+                            {/volist}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://fastly.jsdelivr.net/npm/fslightbox@3.4.1/index.min.js"></script>
+</body>

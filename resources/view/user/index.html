@@ -1,0 +1,138 @@
+{include file="user/header"}
+
+<head>
+    <title>用户面板</title>
+    {css href="/static/css/userIndex.css" /}
+</head>
+
+<div class="page-wrapper">
+    <div class="page-header d-print-none">
+        <div class="container-xl"
+             style="width: 100%;
+                 padding-right: 15px;
+                 padding-left: 15px;
+                 margin-right: auto;
+                 margin-left: 20px;">
+            <div class="row g-2 align-items-center">
+                <div class="col">
+                    <h2 class="page-title">
+                        用户首页
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-deck row-cards">
+                <div class="col-sm-6 col-lg-3">
+                    <div class="card card-sm">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                <span class="bg-green text-white avatar">
+                                  <svg class="icon" fill="none" height="24" stroke="currentColor"
+                                       stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                       viewBox="0 0 24 24"
+                                       width="24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0z" fill="none"
+                                                                                           stroke="none"/><path
+                                          d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path
+                                          d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M17 17h-11v-14h-2"/><path
+                                          d="M6 5l14 1l-1 7h-13"/></svg>
+                                </span>
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-medium">
+                                        {$receivedNum+$unreceivedNum} 个待入库包裹
+                                    </div>
+                                    <div class="text-muted">
+                                        仓库已收到 {$receivedNum} 个
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="card card-sm">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <span class="bg-blue text-white avatar">
+                                        <svg class="icon icon-tabler icon-tabler-packages" fill="none"
+                                             height="24" stroke="currentColor" stroke-linecap="round"
+                                             stroke-linejoin="round"
+                                             stroke-width="2"
+                                             viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                                           <path d="M0 0h24v24H0z" fill="none" stroke="none"></path>
+                                           <path d="M7 16.5l-5 -3l5 -3l5 3v5.5l-5 3z"></path>
+                                           <path d="M2 13.5v5.5l5 3"></path>
+                                           <path d="M7 16.545l5 -3.03"></path>
+                                           <path d="M17 16.5l-5 -3l5 -3l5 3v5.5l-5 3z"></path>
+                                           <path d="M12 19l5 3"></path>
+                                           <path d="M17 16.5l5 -3"></path>
+                                           <path d="M12 13.5v-5.5l-5 -3l5 -3l5 3v5.5"></path>
+                                           <path d="M7 5.03v5.455"></path>
+                                           <path d="M12 8l5 -3"></path>
+                                        </svg>
+                                    </span>
+                                </div>
+                                <div class="col">
+                                    <div class="font-weight-medium">
+                                        已为您成功转运 {$shippedNum} 个包裹
+                                    </div>
+                                    <div class="text-muted">
+                                        您的积分：{$points}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row row-deck row-cards" style="margin-top: 0.5rem">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">网站公告</h3>
+                        </div>
+                        <div class="card-body">
+                            <p style="white-space: pre-line">{$a=htmlspecialchars_decode(getSetting('notice'))}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">转运仓库收件地址</h3>
+                            <div class="card-actions">
+                                <button class="btn btn-primary btn-sm btn-pill" data-clipboard-text="{$a=htmlspecialchars_decode(getSetting('warehouseAddress'))}"
+                                        onclick="alert_success()"
+                                        type="button">
+                                    复制
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p style="white-space: pre-line">
+                                {$a=htmlspecialchars_decode(getSetting('warehouseAddress'))}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var clipboard = new ClipboardJS('.btn');
+
+    function alert_success() {
+        Swal.fire({
+            icon: 'success',
+            title: '提示',
+            text: '复制成功',
+            timer: 1000,
+            timerProgressBar: true
+        });
+    }
+</script>

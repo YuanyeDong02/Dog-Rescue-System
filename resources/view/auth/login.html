@@ -1,0 +1,135 @@
+<body class=" d-flex flex-column">
+<div class="page page-center">
+    <div class="container container-tight py-4">
+        <div class="card card-md">
+            <div class="card-body">
+                <h2 class="h2 text-center mb-4">User login</h2>
+                <div class="mb-3">
+                    <label class="form-label"><i class="fas fa-envelope"></i> E-mail</label>
+                    <input autocomplete="off" class="form-control" name="email" placeholder="Please enter your email address"
+                           tabindex="1" type="email">
+                </div>
+                <div class="mb-2">
+                    <label class="form-label"><i class="fa-solid fa-lock"></i> Password<span class="form-label-description">
+                    <a href="/auth/reset">forgotten password?</a>
+                    </span>
+                    </label>
+                    <div class="input-group input-group-flat">
+                        <input autocomplete="off" class="form-control" name="password" placeholder="Please enter your password"
+                               tabindex="2" type="password">
+                    </div>
+                </div>
+                {if env('enable_captcha')}
+                <div class="mb-2">
+                    <label class="form-label"><i class="fas fa-key"></i> Captcha</label>
+                    <div class="row">
+                        <div class="col-7.5">
+                            <div class="input-group input-group-flat">
+                                <input autocomplete="off" class="form-control" name="captcha" placeholder="Please enter the verification code"
+                                       tabindex="3" type="text">
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <img alt="captcha" onClick="this.src='{:captcha_src()}?'+Math.random();"
+                                 src="{:captcha_src()}"/>
+                        </div>
+                    </div>
+                </div>
+                {/if}
+                <div class="mb-2">
+                    <label class="form-check">
+                        <input class="form-check-input" name="rememberMe" type="checkbox">
+                        <span class="form-check-label">Stay logged in for 7 days</span>
+                    </label>
+                </div>
+                <div class="form-footer">
+                    <button class="btn btn-primary w-100 login-button" tabindex="4" type="submit">Log in</button>
+                </div>
+            </div>
+        </div>
+        <div class="text-center text-muted mt-3">
+            Don't have an account yet?<a href="/auth/register" tabindex="-1">registration</a>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    document.querySelector('.login-button').addEventListener('click', function (event) {
+        var email = document.querySelector('input[name="email"]').value;
+        var password = document.querySelector('input[name="password"]').value;
+        var captchaInput = document.querySelector('input[name="captcha"]');
+        var captcha = captchaInput ? captchaInput.value : "114514";
+        var rememberMe = document.querySelector('input[name="rememberMe"]').checked;
+        var data = {
+            email: email,
+            password: password,
+            rememberMe: rememberMe,
+            captcha: captcha
+        };
+        if (email.trim() === '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'error',
+                text: 'Please enter your email address'
+            });
+            return;
+        }
+        if (password.trim() === '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'error',
+                text: 'Please enter your password'
+            });
+            return;
+        }
+        if (captcha.trim() === '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'error',
+                text: 'Please enter the verification code'
+            });
+            return;
+        }
+        fetch('/auth/login', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error('Request failed');
+                }
+                return response.json();
+            })
+            .then(function (result) {
+                if (result.ret === 1) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'success',
+                        text: result.msg,
+                        showConfirmButton: true,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        allowOutsideClick: false
+                    }).then(function () {
+                        window.location.href = '/user/index';
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'error',
+                        text: result.msg
+                    });
+                }
+            })
+            .catch(function (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'error',
+                    text: 'System error'
+                });
+            });
+    });
+</script>

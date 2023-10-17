@@ -1,0 +1,119 @@
+{include file="admin/header"}
+
+<head>
+    <title>{$action=="edit"?"编辑":"添加"}通道</title>
+</head>
+
+<body>
+<div class="page-wrapper">
+    <div class="container">
+        <div class="page-content">
+            <div class="card" style="margin-top: 26px">
+                <div class="card-header">
+                    <h3 class="card-title">{$action=="edit"?"编辑":"添加"}通道信息</h3>
+                    <a class='btn btn-danger' href='/admin/channels' style="margin-left: auto"><i></i>取消</a>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3" id="singleForm">
+                        <div class="row">
+                            <div class="col">
+                                <label class="form-label">名称</label>
+                                <input class="form-control" name="name" type="text" value="{$channel.name}">
+                            </div>
+                            <div class="col">
+                                <label class="form-label">时效（天）</label>
+                                <input class="form-control" name="effectiveness" type="number"
+                                       value="{$channel.effectiveness}">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <label class="form-label">首重价格</label>
+                                <input class="form-control" name="firstPrice" type="number"
+                                       value="{$channel.firstPrice}">
+                            </div>
+                            <br>
+
+                            <br>
+                            <div class="col">
+                                <label class="form-label">续重价格</label>
+                                <input class="form-control" name="laterPrice" type="number"
+                                       value="{$channel.laterPrice}">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <label class="form-label">备注</label>
+                                <input class="form-control" name="comment" type="text" value="{$channel.comment}">
+                            </div>
+                        </div>
+                        <br>
+                        <button class="btn btn-primary submit" type="button">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.submit').click(function () {
+        var id = {$channel.id};
+        var name = $('input[name="name"]').val();
+        var effectiveness = $('input[name="effectiveness"]').val();
+        var firstPrice = $('input[name="firstPrice"]').val();
+        var laterPrice = $('input[name="laterPrice"]').val();
+        var comment = $('input[name="comment"]').val();
+        let url;
+        if (id == 0) {
+            url = '/admin/channels/add';
+        } else {
+            url = '/admin/channels/' + id;
+        }
+        var data = {
+            id: id,
+            name: name,
+            effectiveness: effectiveness,
+            firstPrice: firstPrice,
+            laterPrice: laterPrice,
+            comment: comment
+        };
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function (result) {
+                if (result.ret === 1) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '成功',
+                        text: result.msg,
+                        showConfirmButton: true,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        allowOutsideClick: false
+                    }).then(function () {
+                        window.location.href = '/admin/channels';
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '错误',
+                        text: result.msg
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: '错误',
+                    text: '系统错误'
+                });
+            }
+        });
+    });
+</script>
+</body>

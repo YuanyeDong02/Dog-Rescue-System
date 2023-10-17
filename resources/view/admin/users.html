@@ -1,0 +1,117 @@
+{include file="admin/header"}
+
+<head>
+    <title>用户查询</title>
+</head>
+
+<body>
+<div class="page-wrapper">
+    <div class="container">
+        <div class="page-content">
+            <div class="card" style="margin-top: 2%">
+                <div class="card-header">
+                    <h2 class="card-title">用户列表 </h2>
+                    <a class='btn btn-dark' href='/admin/index' style="margin-left: auto"><i class="fas fa-back"></i>返回</a>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>用户ID</th>
+                            <th>用户名</th>
+                            <th>邮件</th>
+                            <th>积分</th>
+                            <th>电话</th>
+                            <th>管理</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {if $users->isEmpty()}
+                        <tr>
+                            <td class="text-center" colspan="6">暂无数据</td>
+                        </tr>
+                        {else}
+                        {volist name="users" id="user"}
+                        <tr>
+                            <td>{$user.id}</td>
+                            <td>{$user.username}</td>
+                            <td>{$user.email}</td>
+                            <td>{$user.points}</td>
+                            <td>{$user.tel}</td>
+                            <td>
+                                <a class="btn btn-primary" href="/admin/users/{$user.id}">编辑</a>
+                                <button class="btn btn-danger" type="button" data-id="{$user.id}">删除</button>
+                            </td>
+                        </tr>
+                        {/volist}
+                        {/if}
+                        </tbody>
+                    </table>
+
+                    <!-- 分页链接 -->
+                    {$users|raw}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var deleteButtons = document.querySelectorAll('.btn-danger');
+    deleteButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var Id = button.getAttribute('data-id');
+            Swal.fire({
+                title: '您确定要删除该用户吗？',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '确认删除',
+                cancelButtonText: '取消'
+            }).then(function (result) {
+                if (result.value) {
+                    fetch('/admin/users/' + Id, {
+                        method: 'DELETE'
+                    }).then(function (response) {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error('请求失败');
+                        }
+                    }).then(data => {
+                        if (data.ret === 1) {
+                            Swal.fire({
+                                title: '成功',
+                                text: data.msg,
+                                confirmButtonText: '确定',
+                                icon: 'success'
+                            }).then(function (result) {
+                                if (result.value) {
+                                    location.reload();
+                                }
+                            });
+                            setTimeout(function () {
+                                location.reload();
+                            }, 2000);
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: '错误',
+                                text: data.msg
+                            });
+                        }
+                    }).catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '错误',
+                            text: '系统错误'
+                        }).then(function (result) {
+                            if (result.value) {
+                                location.reload();
+                            }
+                        });
+                    });
+                }
+            });
+        });
+    });
+</script>
+</body>

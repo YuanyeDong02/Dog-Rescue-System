@@ -1,0 +1,109 @@
+{include file="admin/header"}
+
+<head>
+    <title>网站设置</title>
+</head>
+
+<body>
+<div class="page-wrapper">
+    <div class="container">
+        <div class="page-content">
+            <div class="card" style="margin-top: 2%">
+                <div class="card-header">
+                    <a class='btn btn-dark' href='/admin' style="margin-left: auto"><i class="fas fa-back"></i>返回</a>
+                </div>
+
+                {if $settings->isEmpty()}
+                <div class="empty">
+                    <div class="empty-title">
+                        暂无数据
+                    </div>
+                </div>
+                {else}
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>备注</th>
+                            <th>key</th>
+                            <th>内容</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {volist name="settings" id="setting"}
+                        <tr>
+                            <td>{$setting.comment}</td>
+                            <td>{$setting.key}</td>
+                            <td>{$setting.value}</td>
+                            <td>
+                                <a class="btn btn-primary" href="/admin/settings/{$setting.id}">编辑</a>
+                            </td>
+                        </tr>
+                        {/volist}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {/if}
+
+        </div>
+    </div>
+</div>
+<script>
+    $('.btn-danger').each(function () {
+        $(this).click(function () {
+            var Id = $(this).attr('data-id');
+            Swal.fire({
+                title: '您确定要删除该通道吗？',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '确认删除',
+                cancelButtonText: '取消'
+            }).then(function (result) {
+                if (result.value) {
+                    $.ajax({
+                        url: '/admin/channels/' + Id,
+                        type: 'DELETE',
+                        success: function (data) {
+                            if (data.ret === 1) {
+                                Swal.fire({
+                                    title: '成功',
+                                    text: data.msg,
+                                    confirmButtonText: '确定',
+                                    icon: 'success'
+                                }).then(function (result) {
+                                    if (result.value) {
+                                        location.reload();
+                                    }
+                                });
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 2000);
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: '错误',
+                                    text: data.msg
+                                });
+                            }
+                        },
+                        error: function () {
+                            Swal.fire({
+                                icon: 'error',
+                                title: '错误',
+                                text: '系统错误'
+                            }).then(function (result) {
+                                if (result.value) {
+                                    location.reload();
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+</body>

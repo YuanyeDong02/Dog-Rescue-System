@@ -1,0 +1,111 @@
+<body class=" d-flex flex-column">
+<div class="page page-center">
+    <div class="container container-tight py-4">
+        <div class="card card-md">
+            <div class="card-body">
+                <h2 class="h2 text-center mb-4">Reset Password</h2>
+                <div class="mb-3">
+                    <label class="form-label"><i class="fas fa-envelope"></i> E-mail</label>
+                    <input autocomplete="off" class="form-control" name="email" placeholder="Please enter your email address"
+                           type="email">
+                </div>
+                {if env('enable_captcha')}
+                <div class="mb-2">
+                    <label class="form-label"><i class="fas fa-key"></i> Captcha</label>
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-group input-group-flat">
+                                <input class="form-control" name="captcha" placeholder="Please enter the verification code"
+                                       type="text">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <img alt="captcha" onClick="this.src='{:captcha_src()}?'+Math.random();"
+                                 src="{:captcha_src()}"/>
+                        </div>
+                    </div>
+                </div>
+                {/if}
+                <div class="form-footer">
+                    <button class="btn btn-primary w-100 reset-button" type="submit">Reset Password</button>
+                </div>
+            </div>
+        </div>
+        <div class="text-center text-muted mt-3">
+            <a href="/auth/login" tabindex="-1">Return to Login</a>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    document.querySelector('.reset-button').addEventListener('click', function (event) {
+        var email = document.querySelector('input[name="email"]').value;
+        var captchaInput = document.querySelector('input[name="captcha"]');
+        var captcha = captchaInput ? captchaInput.value : "114514";
+        var data = {
+            email: email,
+            captcha: captcha
+        };
+        if (captcha.trim() === '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'error',
+                text: 'Please enter the verification code'
+            });
+            return;
+        }
+        if (email.trim() === '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'error',
+                text: 'Please enter your email address'
+            });
+            return;
+        }
+        var resetButton = document.querySelector('.reset-button');
+        resetButton.innerText = 'Processing...';
+        fetch('/auth/reset', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error('Request failed');
+                }
+                return response.json();
+            })
+            .then(function (result) {
+                if (result.ret === 1) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'E-Mail has been sent',
+                        text: result.msg,
+                        showConfirmButton: true,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        allowOutsideClick: false
+                    }).then(function () {
+                        window.location.href = '/auth/login';
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'error',
+                        text: result.msg
+                    });
+                    resetButton.innerText = 'Reset Password';
+                }
+            })
+            .catch(function (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'error',
+                    text: 'Reset request failed'
+                });
+                resetButton.innerText = 'Reset Password';
+            });
+    });
+</script>

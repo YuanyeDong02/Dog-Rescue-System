@@ -1,0 +1,126 @@
+{include file="admin/header"}
+
+<head>
+    <title>编辑用户</title>
+</head>
+
+<body>
+<div class="page-wrapper">
+    <div class="container">
+        <div class="page-content">
+            <div class="card" style="margin-top: 26px">
+                <div class="card-header">
+                    <h3 class="card-title">编辑用户信息</h3>
+                    <a class='btn btn-danger' href='/admin/users' style="margin-left: auto"><i></i>取消</a>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col">
+                                <label class="form-label">用户ID</label>
+                                <input class="form-control" name="id" type="text" disabled value="{$user.id}">
+                            </div>
+                            <div class="col">
+                                <label class="form-label">用户名</label>
+                                <input class="form-control" name="username" type="text" value="{$user.username}">
+                            </div>
+                            <div class="col">
+                                <label class="form-label">积分</label>
+                                <input class="form-control" name="points" type="number" value="{$user.points}">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <label class="form-label">邮箱</label>
+                                <input class="form-control" name="email" type="email" value="{$user.email}">
+                            </div>
+                            <br>
+
+                            <br>
+                            <div class="col">
+                                <label class="form-label">电话</label>
+                                <input class="form-control" name="tel" type="tel" value="{$user.tel}">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="col">
+                                <label class="form-label">密码</label>
+                                <input class="form-control" name="password" type="password" placeholder="不修改请留空">
+                        </div>
+                        <br>
+                        <div class="col">
+                          <label class='form-check form-switch'>
+                            管理员
+                            <input class='form-check-input' type='checkbox' name='admin' {$user.admin?"checked":""}>
+                          </label>
+                        </div>
+                        <br>
+                        <button class="btn btn-primary submit" type="button">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelector('.submit').addEventListener('click', function () {
+        var username = document.querySelector('input[name="username"]').value;
+        var points = document.querySelector('input[name="points"]').value;
+        var email = document.querySelector('input[name="email"]').value;
+        var tel = document.querySelector('input[name="tel"]').value;
+        var password = document.querySelector('input[name="password"]').value;
+        var data = {
+            id: {$user.id},
+            username: username,
+            points: points,
+            email: email,
+            tel: tel,
+            password: password,
+            admin: document.querySelector('input[name="admin"]').checked
+        };
+        fetch(url = '/admin/users/{$user.id}', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error('请求失败');
+                }
+                return response.json();
+            })
+            .then(function (result) {
+                if (result.ret === 1) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '成功',
+                        text: result.msg,
+                        showConfirmButton: true,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        allowOutsideClick: false
+                    }).then(function () {
+                        window.location.href = '/admin/users';
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '错误',
+                        text: result.msg
+                    });
+                }
+            })
+            .catch(function (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: '错误',
+                    text: '系统错误'
+                });
+            });
+        });
+</script>
+</body>

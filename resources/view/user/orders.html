@@ -1,0 +1,167 @@
+{include file="user/header"}
+
+<head>
+    <title>转运记录</title>
+    <style>
+        .modal-dialog {
+            max-width: 1200px;
+            margin: 1.75rem auto;
+        }
+
+        .dropdown {
+            position: inherit;
+            z-index: 1000;
+        }
+
+    </style>
+</head>
+
+<body>
+<div class="page-wrapper">
+    <div class="container">
+        <div class="page-content">
+            <div class="card" style="margin-top: 2%">
+                <div class="card-header">
+                    <h2 class="card-title">转运记录 <a class='btn btn-cyan' href='/user/orders/add'><i
+                            class="fas fa-plus"></i>提交转运申请</a></h2>
+                    <a class='btn btn-dark' href='/user/index' style="margin-left: auto"><i class="fas fa-back"></i>返回</a>
+                </div>
+
+                {if $orders->isEmpty()}
+                <div class="empty">
+                    <div class="empty-title">
+                        暂无数据
+                    </div>
+                </div>
+                {else}
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>订单编号</th>
+                                <th>转运方式</th>
+                                <th>追踪单号</th>
+                                <th>状态</th>
+                                <th>价格</th>
+                                <th>下单时间</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {volist name="orders" id="order"}
+                            <tr>
+                                <td><span class="text-muted">{$order.orderUID}</span></td>
+                                <td>{$order.channelName}</td>
+                                <td>{if $order.trackNum == null}
+                                    待生成
+                                    {else}
+                                    <a href="https://t.17track.net/zh-cn#nums={$order.trackNum}" target="_blank">
+                                        {$order.trackNum}
+                                    </a>
+                                    {/if}
+                                </td>
+                                <td>
+                                    {if $order.processStatus == 0}
+                                    <span class="badge bg-purple me1">待审核</span>
+                                    {elseif $order.processStatus == 1&&$order.paymentStatus == 0}
+                                    <span class="badge bg-yellow me1">待支付</span>
+                                    {elseif $order.processStatus == 1&&$order.paymentStatus == 1&&$order.dispatchStatus == 0}
+                                    <span class="badge bg-success me1">待发货</span>
+                                    {elseif $order.dispatchStatus == 1}
+                                    <span class="badge bg-success me1">已出仓</span>
+                                    {else}
+                                    <span class="badge bg-danger me1">未知状态</span>
+                                    {/if}
+                                </td>
+                                <td>
+                                    {if $order.price == null}
+                                    待计算
+                                    {else}
+                                    {$order.price} 元 &nbsp;
+                                    {if $order.paymentStatus==0}
+                                    <a href="/user/pay?id={$order.uid}" target="_blank">（去支付）</a>
+                                    {/if}
+                                    {/if}
+                                </td>
+                                <td>{$order.createAt}</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn dropdown-toggle align-text-top" data-bs-toggle="dropdown">
+                                            查看
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <a class="dropdown-item" data-bs-target="#detail-{$order.orderUID}"
+                                               data-bs-toggle="modal"
+                                               href="#">查看详询</a>
+                                            <a class="dropdown-item" href="/user/orders/{$order.orderUID}/parcels"
+                                               target="_blank">包裹列表</a>
+                                            {if $order.processStatus}
+                                            <a class="dropdown-item" href="/user/orders/{$order.orderUID}/image"
+                                               target="_blank">查看图片</a>
+                                            {/if}
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <div aria-hidden="true" class="modal modal-blur fade" id="detail-{$order.orderUID}"
+                                 role="dialog"
+                                 tabindex="-1">
+                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">订单详询</h5>
+                                            <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                                                    type="button"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            收件人：{$order.receiver}<br>
+                                            收件人电话：{$order.tel}<br>
+                                            收件人地址：<br>
+                                            {$order.line1}<br>
+                                            {if $order.line2 != null}
+                                            {$order.line2}<br>
+                                            {/if}
+                                            {if $order.line3 != null}
+                                            {$order.line3}<br>
+                                            {/if}
+                                            {$order.city}<br>
+                                            {$order.postcode}<br>
+                                            {$order.country}<br>
+                                            <hr>
+                                            总重量：{$order.weight??"未计算"} kg<br>
+                                            预选渠道：{$order.channelName}<br>
+                                            支付状态：{$order.paymentStatus?"已支付":"未支付"}<br>
+                                            金额：{$order.price??"未计算"} 元<br>
+                                            下单时间：{$order.createAt}<br>
+                                            订单状态：{$order.dispatchStatus?"已出仓":"未出仓"}<br>
+                                            {if $order.dispatchStatus == 1}
+                                            出仓时间：{$order.dispatchTime}<br>
+                                            追踪单号：{$order.trackNum}<br>
+                                            {/if}
+                                            {if $order.comment!=null}
+                                            <hr>
+                                            备注：{$order.comment}<br>
+                                            {/if}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn me-auto" data-bs-dismiss="modal" type="button">关闭
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {/volist}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 分页链接 -->
+                    {$orders|raw}
+                </div>
+                {/if}
+            </div>
+        </div>
+    </div>
+</div>
+</body>

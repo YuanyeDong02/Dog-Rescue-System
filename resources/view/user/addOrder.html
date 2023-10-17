@@ -1,0 +1,311 @@
+{include file="user/header"}
+
+<head>
+    <title>添加订单</title>
+</head>
+
+<body>
+<div class="page-wrapper">
+    <div class="container">
+        <div class="page-content">
+            <div class="card" style="margin-top: 2%">
+                <div class="card-header">
+                    <h3 class="card-title">添加订单</h3>
+                    <a class='btn btn-danger' href='/user/orders' style="margin-left: auto"><i></i>取消</a>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3" id="fill-address">
+                        <label class="form-label" style="font-size: larger">
+                            填写收货地址
+                            <a class='btn btn-pill btn-success' href='/user/orders/add/select'>选择现有地址</a>
+                        </label>
+                        <div class="row">
+                            <div class="col">
+                                <label class="form-label">收件人</label>
+                                <input class="form-control" id="receiver" name="receiver" type="text"
+                                       value="{$address.receiver}">
+                            </div>
+                            <div class="col">
+                                <label class="form-label">电话</label>
+                                <input class="form-control" id="tel" name="tel" type="tel" value="{$address.tel}">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="list">
+                            <div class="col">
+                                <label class="form-label">详细地址 (line 1)</label>
+                                <input class="form-control" id="line1" name="line1" type="text"
+                                       value="{$address.line1}">
+                            </div>
+                            <br>
+                            <div class="col">
+                                <label class="form-label">详细地址 (line 2)</label>
+                                <input class="form-control" id="line2" name="line2" placeholder="不需要请留空"
+                                       type="text" value="{$address.line2}">
+                            </div>
+                            <br>
+                            <div class="col">
+                                <label class="form-label">详细地址 (line 3)</label>
+                                <input class="form-control" id="line3" name="line3" placeholder="不需要请留空"
+                                       type="text" value="{$address.line3}">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <label class="form-label">城市</label>
+                                <input class="form-control" id="city" name="city" type="text" value="{$address.city}">
+                            </div>
+                            <div class="col">
+                                <label class="form-label">邮编</label>
+                                <input class="form-control" id="postcode" name="postcode" type="text"
+                                       value="{$address.postcode}">
+                            </div>
+                            <div class="col">
+                                <label class="form-label">国家</label>
+                                <input class="form-control" id="country" name="country" type="text"
+                                       value="{$address.country}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label" style="font-size: larger">选择包裹</label>
+                        <table class="table table-hover" style="margin-top: 15px">
+                            <thead>
+                            <tr>
+                                <th>
+                                    <div class="form-check">
+                                        <input class="form-check-input" id="selectAll" type="checkbox">
+                                        <label class="form-check-label" for="selectAll">全选</label>
+                                    </div>
+                                </th>
+                                <th>运单号</th>
+                                <th>备注</th>
+                                <th>添加时间</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {if $receivedParcels->isEmpty()}
+                            <tr>
+                                <td class="text-center" colspan="5">暂无数据</td>
+                            </tr>
+                            {else}
+                            {volist name="receivedParcels" id="receivedParcel"}
+                            <tr>
+                                <td>
+                                    <label class="form-check">
+                                        <input class="form-check-input" name="parcels[]" type="checkbox"
+                                               value="{$receivedParcel.id}">
+                                    </label>
+                                </td>
+                                <td>{$receivedParcel.trackNum}</td>
+                                <td>{$receivedParcel.comment}</td>
+                                <td>{$receivedParcel.createdAt}</td>
+                            </tr>
+                            {/volist}
+                            {/if}
+                            </tbody>
+                        </table>
+
+                        {$receivedParcels|raw}
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label" for="select-channels" style="font-size: larger">
+                            选择转运渠道
+                            <a class='btn btn-pill btn-secondary' href='/user/channels'
+                               target="_blank">渠道及费用介绍</a>
+                        </label>
+                        <select class="form-select" id="select-channels">
+                            {volist name="channels" id="channel"}
+                            <option name="channel" value="{$channel.id}">{$channel.name}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label" for="comments" style="font-size: larger">备注</label>
+                        <textarea class="form-control" data-bs-toggle="autosize" id="comments" name="comments"
+                                  placeholder="如不需要备注信息则无需填写。"></textarea>
+                        <br>
+                        <label class="form-check form-switch">
+                            {if $points>$minPoints}
+                            <input class="form-check-input" id="payWithPoint" name="payWithPoint" type="checkbox">
+                            <span class="form-check-label">使用{$points}积分抵扣</span>
+                            {else}
+                            <input class="form-check-input" id="payWithPoint" name="payWithPoint" type="checkbox" disabled>
+                            <span class="form-check-label">您有{$points}积分，满{$minPoints}可用</span>
+                            {/if}
+                        </label>
+                        <button class="btn btn-primary submit" style="margin-top: 15px">提交订单</button>
+                        每次成功下单后，您将会获得订单金额 * {$a=getPointRate()} 的积分奖励。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 获取全选复选框和所有其他复选框
+    var selectAllCheckbox = document.getElementById('selectAll');
+    var checkboxes = document.querySelectorAll('input[name="parcels[]"]');
+
+    // 添加全选复选框的事件监听器
+    selectAllCheckbox.addEventListener('change', function () {
+        checkboxes.forEach(function (checkbox) {
+            checkbox.checked = selectAllCheckbox.checked;
+        });
+    });
+
+</script>
+<script>
+    document.querySelector('.submit').addEventListener('click', function (event) {
+        var receiver = document.querySelector('input[name="receiver"]').value;
+        var tel = document.querySelector('input[name="tel"]').value;
+        var line1 = document.querySelector('input[name="line1"]').value;
+        var line2 = document.querySelector('input[name="line2"]').value;
+        var line3 = document.querySelector('input[name="line3"]').value;
+        var city = document.querySelector('input[name="city"]').value;
+        var postcode = document.querySelector('input[name="postcode"]').value;
+        var country = document.querySelector('input[name="country"]').value;
+        var comments = document.querySelector('textarea[name="comments"]').value;
+        var channel = document.getElementById('select-channels').value;
+        var checkboxes = document.querySelectorAll('input[name="parcels[]"]:checked');
+        var payWithPoint = document.querySelector('input[name="payWithPoint"]').checked
+        var selectedParcelIds = [];
+
+        checkboxes.forEach(function (checkbox) {
+            var parcelId = checkbox.value;
+            selectedParcelIds.push(parcelId);
+        });
+
+        var data = {
+            receiver: receiver,
+            tel: tel,
+            line1: line1,
+            line2: line2,
+            line3: line3,
+            city: city,
+            postcode: postcode,
+            country: country,
+            comments: comments,
+            channel: channel,
+            selectedParcelIds: selectedParcelIds,
+            payWithPoint: payWithPoint
+        };
+
+        if (receiver.trim() === '') {
+            Swal.fire({
+                icon: 'error',
+                title: '错误',
+                text: '请填写收件人姓名'
+            });
+            return;
+        }
+
+        if (tel.trim() === '') {
+            Swal.fire({
+                icon: 'error',
+                title: '错误',
+                text: '请填写收件人电话'
+            });
+            return;
+        }
+
+        if (line1.trim() === '') {
+            Swal.fire({
+                icon: 'error',
+                title: '错误',
+                text: '请填写收件人详细地址'
+            });
+            return;
+        }
+
+        if (city.trim() === '') {
+            Swal.fire({
+                icon: 'error',
+                title: '错误',
+                text: '请填写城市'
+            });
+            return;
+        }
+
+        if (postcode.trim() === '') {
+            Swal.fire({
+                icon: 'error',
+                title: '错误',
+                text: '请填写邮编'
+            });
+            return;
+        }
+
+        if (country.trim() === '') {
+            Swal.fire({
+                icon: 'error',
+                title: '错误',
+                text: '请填写国家'
+            });
+            return;
+        }
+
+        if (selectedParcelIds.length === 0) {
+            Swal.fire({
+                icon: 'error',
+                title: '错误',
+                text: '请选择包裹'
+            });
+            return;
+        }
+
+        url = '/user/orders/add';
+
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error('请求失败');
+                }
+                return response.json();
+            })
+            .then(function (result) {
+                if (result.ret === 1) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '成功',
+                        text: result.msg,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        allowOutsideClick: false,
+                    }).then(function () {
+                        window.location.href = '/user/orders';
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '错误',
+                        text: result.msg
+                    });
+                }
+            })
+            .catch(function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: '错误',
+                    text: '系统错误'
+                });
+            });
+
+    });
+</script>
+
+</body>
