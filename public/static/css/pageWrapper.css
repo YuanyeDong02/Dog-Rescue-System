@@ -1,0 +1,22 @@
+.page-wrapper {
+    position: relative;
+    left: 240px;
+    width: calc(100% - 240px);
+}
+
+@media (max-width: 1000px) {
+    .page-wrapper {
+        left: 0;
+        width: 100%;
+    }
+}
+
+/*当用户缩放大于200%时调整div边距大小*/
+@media only screen and (-webkit-min-device-pixel-ratio: 2) and (min-resolution: 192dpi),
+only screen and (min--moz-device-pixel-ratio: 2) and (min-resolution: 192dpi),
+only screen and (min-resolution: 2dppx) {
+    .page-wrapper {
+        left: 0;
+        width: 100%;
+    }
+}

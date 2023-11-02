@@ -89,15 +89,8 @@ class UserController extends BaseController
     public function index(): View
     {
         $userID = Session::get("userID");
-        $unreceivedNum = $this->app->parcelService->getUnreceivedParcelsCount($userID);
-        $receivedNum = $this->app->parcelService->getReceivedParcelsCount($userID);
-        $shippedNum = $this->app->orderService->getOrdersCount($userID);
-        $points = $this->app->userService->getPoints($userID);
+
         return view('/user/index', [
-            'unreceivedNum' => $unreceivedNum,
-            'receivedNum' => $receivedNum,
-            'shippedNum' => $shippedNum,
-            'points' => $points
         ]);
     }
 
