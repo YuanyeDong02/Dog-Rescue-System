@@ -40,34 +40,8 @@ Route::rule('user/', 'user/index')->middleware(UserIndex::class);
 Route::group('user', function () {
     Route::rule('/', 'user/index');
     Route::rule('index', 'user/index');
-    // 快递相关
-    Route::get('parcels/add', view('user/addParcel'));
-    Route::post('parcels/add', 'user/addParcel');
-    Route::get('parcels', 'user/parcels');
-    // 地址相关
-    Route::get('addresses/add', 'user/addAddressPage');
-    Route::post('addresses/add', 'user/addAddress');
-    Route::get('addresses/:id', 'user/editAddress');
-    Route::post('addresses/:id', 'user/updateAddress');
-    Route::delete('addresses/:id', 'user/deleteAddress');
-    Route::get('addresses', 'user/addresses');
-    // 设置相关
-    Route::get('settings', 'user/settings');
-    Route::post('settings', 'user/updateSettings');
-    // 渠道相关
-    Route::rule('channels', 'user/channels');
-    // 订单相关
-    Route::get('orders/:orderUID/image', 'user/getOrderImagePage');
-    Route::get('orders/:orderUID/parcels', 'user/getOrderParcels');
-    Route::get('orders/add/select', 'user/selectAddress');
-    Route::get('orders/add', 'user/addOrderPage');
-    Route::post('orders/add', 'user/addOrder');
-    Route::get('orders', 'user/orders');
-    // 支付相关
-    Route::get('pay', 'user/paymentPage');
-    // 获取图片
-    Route::rule('getOrderImage/:md5', 'user/getOrderImage');
-    // 登出
+    Route::get('apply/add', 'user/Applyinformation');
+    Route::post('apply/add', 'user/postapply');
     Route::rule('logout', 'user/logout');
 })->middleware(UserIndex::class);
 
