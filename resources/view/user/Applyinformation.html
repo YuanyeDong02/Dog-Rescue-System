@@ -9,92 +9,116 @@
 
             <h2 class="card-header bg-primary text-white text-center">apply form</h2>
             <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-6">
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="Name">Name</span>
                     <input autocomplete="off" class="form-control" name="Name" required type="text"
                            >
                 </div>
-                <div class="row">
+                </div>
+
                     <div class="col-sm-12 col-lg-6">
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="Address">address</span>
-                            <input autocomplete="off" class="form-control" name="Address" type="text"
-                                  >
+                            <input autocomplete="off" class="form-control" name="Address" type="text">
                         </div>
                     </div>
                     <div class="col-sm-12 col-lg-6">
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="CityRegion">CityRegion</span>
-                            <input autocomplete="off" class="form-control" name="CityRegion" type="text"
-                                   >
+                            <input autocomplete="off" class="form-control" name="CityRegion" type="text">
                         </div>
                     </div>
-                </div>
+
+                <div class="col-sm-12 col-lg-6">
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="PostalCode">PostalCode</span>
                     <input autocomplete="off" class="form-control" name="PostalCode" type="text" >
                 </div>
+                </div>
+                <div class="col-sm-12 col-lg-6">
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="Age">Age</span>
-                    <input autocomplete="off" class="form-control" name="Age"
-                           placeholder="账号的说明，在分享页显示"
+                    <input autocomplete="off" class="form-control" name="Age" required
                            type="text" >
                 </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="Occupation">Occupation</span>
-                    <input autocomplete="off" class="form-control" name="Occupation" required
-                           type="date" >
                 </div>
+                    <div class="col-sm-12 col-lg-6">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="Occupation">Occupation</span>
+                        <input autocomplete="off" class="form-control" name="Occupation" required
+                        >
+                    </div>
+                    </div>
+                </div>
+
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="FamilyMembers">FamilyMembers</span>
-                    <input autocomplete="off" class="form-control" name="FamilyMembers" required type="text"
-                           >
+                    <textarea class="form-control" name="FamilyMembers" required
+                              rows="5"></textarea>
+                </div>
+
+
+                <div class="form-floating">
+                    <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="HousingType" required>
+                        <option selected disabled>Open this select menu and choose your house type </option>
+                        <option value="House">House</option>
+                        <option value="Apartment">Flat</option>
+                        <option value="Townhouse">Townhouse</option>
+                        <option value="MobileHome">MobileHome</option>
+                    </select>
+                    <label for="floatingSelect">Select</label>
+                    <br>
+
                 </div>
                 <div class="input-group mb-3">
-                    <span class="input-group-text" id="HousingType">HousingType</span>
-                    <input autocomplete="off" class="form-control" name="HousingType" required type="text"
-                           >
+                    <label class="form-check">
+                        <input class = "form-check-input" type = "checkbox" value = "" id = "flexCheckDefault" name = "AllowingPets" >
+                        <span class="form-check-label">Allow pets</span>
+                    </label>
+
                 </div>
                 <div class="input-group mb-3">
-                    <span class="input-group-text" id="AllowingPets">AllowingPets</span>
-                    <input autocomplete="off" class="form-control" name="AllowingPets" required type="text"
-                           >
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="ApartmentPetPolicy">ApartmentPetPolicy</span>
-                    <input autocomplete="off" class="form-control" name="ApartmentPetPolicy" required type="text"
-                           >
+                    <label class="form-check">
+                        <input class = "form-check-input" type = "checkbox" value = "" id = "ApartmentPetPolicy" name = "ApartmentPetPolicy" >
+                        <span class="form-check-label">If it's a flat, while having a pet policy limit</span>
+                    </label>
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="ApartmentPolicyDetails">ApartmentPolicyDetails</span>
-                    <input autocomplete="off" class="form-control" name="ApartmentPolicyDetails" required type="text"
-                           >
+                    <textarea class="form-control" name="ApartmentPolicyDetails" required
+                              rows="5"></textarea>
                 </div>
+
+
                 <div class="input-group mb-3">
-                    <span class="input-group-text" id="PetExperience">PetExperience</span>
-                    <input autocomplete="off" class="form-control" name="PetExperience" required type="text"
-                    >
+                    <label class="form-check">
+                        <input class = "form-check-input" type = "checkbox" value = "" id = "PetExperience" name = "PetExperience" >
+                        <span class="form-check-label">Ever had experience with pets?</span>
+                    </label>
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="PreviousPets">If you have ever had a pet, <br>please describe in detail the type of pet,<br> if not, please fill in No.</span>
+                    <textarea class="form-control" name="PreviousPets" required type="text" rows="5"></textarea>
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="ReasonToAdopt">ReasonToAdopt</span>
-                    <input autocomplete="off" class="form-control" name="ReasonToAdopt" required type="text"
-                    >
+                    <textarea class="form-control" name="ReasonToAdopt" required type = "text"
+                              rows="5"></textarea>
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="PetCareAndTrainingPlan">PetCareAndTrainingPlan</span>
-                    <input autocomplete="off" class="form-control" name="PetCareAndTrainingPlan" required type="text"
-                    >
+                    <textarea class="form-control" name="PetCareAndTrainingPlan" required type = "text"
+                              rows="5"></textarea>
                 </div>
                 <div class="input-group mb-3">
                 <span class="input-group-text" id="DailyScheduleImpact">DailyScheduleImpact</span>
                 <input autocomplete="off" class="form-control" name="DailyScheduleImpact" required type="text"
                 >
             </div>
-                <div class="input-group mb-3">
-                <span class="input-group-text" id="PreviousPets">PreviousPets</span>
-                <input autocomplete="off" class="form-control" name="PreviousPets" required type="text"
-                >
-            </div>
+
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="ExerciseAndPlay">ExerciseAndPlay</span>
                     <input autocomplete="off" class="form-control" name="ExerciseAndPlay" required type="text"
@@ -126,7 +150,7 @@
                     >
                 </div>
             <hr>
-            <button class="btn btn-primary btn-block submit-button" type="submit">
+            <button class="btn btn-primary btn-block submit-button" type="submit">Submit
             </button>
         </div>
     </div>
@@ -152,7 +176,7 @@
             var FamilyMembers = $('input[name="FamilyMembers"]').val();
             var FamilyMemberDetails = $('input[name="FamilyMemberDetails"]').val();
             var HousingType = $('input[name="HousingType"]').val();
-            var AllowingPets = $('input[name="AllowingPets"]').val();
+            var AllowingPets = $('input[name="AllowingPets"]').is(':checked');
             var ApartmentPetPolicy = $('input[name="ApartmentPetPolicy"]').val();
             var ApartmentPolicyDetails = $('input[name="ApartmentPolicyDetails"]').val();
             var PetExperience = $('input[name="PetExperience"]').val();
