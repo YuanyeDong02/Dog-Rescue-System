@@ -5,10 +5,12 @@ namespace app\controller;
 
 use app\BaseController;
 use app\model\Address;
+use app\model\Apply;
 use app\model\Channel;
 use app\model\Order;
 use app\model\Parcel;
 use app\validate\applytableinfor;
+use think\console\Output;
 use think\exception\ValidateException;
 use think\facade\Cookie;
 use think\facade\Db;
@@ -49,7 +51,7 @@ class UserController extends BaseController
         $postinformation['ApartmentPetPolicy'] = $request->param('ApartmentPetPolicy');
         $postinformation['ApartmentPolicyDetails'] = $request->param('ApartmentPolicyDetails');
         $postinformation['PetExperience'] = $request->param('PetExperience');
-        $postinformation['PreviousPets'] = $request->param('PreviousPets');
+        $postinformation['PetExperienceDetails'] = $request->param('PetExperienceDetails');
         $postinformation['ReasonToAdopt'] = $request->param('ReasonToAdopt');
         $postinformation['PetCareAndTrainingPlan'] = $request->param('PetCareAndTrainingPlan');
         $postinformation['DailyScheduleImpact'] = $request->param('DailyScheduleImpact');
@@ -57,7 +59,34 @@ class UserController extends BaseController
         $postinformation['ExerciseAndPlay'] = $request->param('ExerciseAndPlay');
         $postinformation['VeterinaryCare'] = $request->param('VeterinaryCare');
         $postinformation['HomeVisit'] = $request->param('HomeVisit');
-        $postinformation['AdditionalInfo'] = $request->param('AdditionalInfo');
+
         return $this->app->ApplyService->applytable($postinformation);
+    }
+
+    public function Applyprogress(): View
+    {
+        $apply = new Apply();
+        $apply = $apply->where('userid', Session::get('userID'))->limit(1)->findOrEmpty();
+        if ($apply->isEmpty()) {
+            $step = 0;
+
+        } elseif ($apply->active == 0) {
+            $step = 1;
+        }else{
+            $step = 2;
+    }
+
+
+
+
+
+        return view('user/Applyprogress', ['step' => $step]);
+    }
+
+    public function Applyfinished(): View
+    {
+        $apply = Db::table('apply')->where('userid', Session::get('userID'))->find();
+
+        return view('user/Applyfinished', ['apply' => $apply]);
     }
 }

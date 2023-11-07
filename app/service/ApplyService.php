@@ -5,6 +5,7 @@ namespace app\service;
 
 use app\model\Apply;
 use app\validate\applytableinfor;
+use think\console\Output;
 use think\exception\ValidateException;
 use think\Service;
 
@@ -31,6 +32,7 @@ class ApplyService extends Service
             ]);
         }
         $apply = new Apply();
+        $table["active"] = 0;
         $apply->create($table);
         return json([
             'msg' => "Apply successfully",

@@ -8,6 +8,8 @@
 
 
             <h2 class="card-header bg-primary text-white text-center">apply form</h2>
+                <h3 class="card-title bg-primary text-white text-center">Please fill in the form below</h3>
+                <h4 class="card-title bg-primary text-white text-center">Personal Information</h4>
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm-12 col-lg-6">
@@ -53,13 +55,26 @@
                     </div>
                 </div>
 
+                <h4 class="card-title bg-primary text-white text-center">Family Information</h4>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="FamilyMembers">FamilyMembers</span>
-                    <textarea class="form-control" name="FamilyMembers" required
+
+                    <input autocomplete="off" class="form-control" name="FamilyMembers" required placeholder="Just fill in the numbers, e.g. if there are 6 persons in the family, fill in‘6’ only ">
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="FamilyMemberDetails">FamilyMemberDetails</span>
+                    <textarea class="form-control" name="FamilyMemberDetails" required
                               rows="5"></textarea>
                 </div>
 
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="FamilyIncome">Family Income(Pounds)</span>
+                    <input autocomplete="off" class="form-control" name="FamilyIncome" required type="text" placeholder="For example: 6000"
+                    >
+                </div>
 
+                <h4 class="card-title bg-primary text-white text-center">Residence Information</h4>
                 <div class="form-floating">
                     <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="HousingType" required>
                         <option selected disabled>Open this select menu and choose your house type </option>
@@ -91,7 +106,7 @@
                               rows="5"></textarea>
                 </div>
 
-
+                <h4 class="card-title bg-primary text-white text-center">Pet Experience</h4>
                 <div class="input-group mb-3">
                     <label class="form-check">
                         <input class = "form-check-input" type = "checkbox" value = "" id = "PetExperience" name = "PetExperience" >
@@ -100,14 +115,16 @@
                 </div>
 
                 <div class="input-group mb-3">
-                    <span class="input-group-text" id="PreviousPets">If you have ever had a pet, <br>please describe in detail the type of pet,<br> if not, please fill in No.</span>
-                    <textarea class="form-control" name="PreviousPets" required type="text" rows="5"></textarea>
+                    <span class="input-group-text" id="PetExperienceDetails">If you have ever had a pet, <br>please describe in detail the type of pet,<br> if not, please fill in No.</span>
+                    <textarea class="form-control" name="PetExperienceDetails" required type="text" rows="5"></textarea>
                 </div>
+                <h4 class="card-title bg-primary text-white text-center">Dog ownership scheme</h4>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="ReasonToAdopt">ReasonToAdopt</span>
                     <textarea class="form-control" name="ReasonToAdopt" required type = "text"
                               rows="5"></textarea>
                 </div>
+
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="PetCareAndTrainingPlan">PetCareAndTrainingPlan</span>
                     <textarea class="form-control" name="PetCareAndTrainingPlan" required type = "text"
@@ -125,6 +142,7 @@
 
                     >
                 </div>
+                <h4 class="card-title bg-primary text-white text-center">Other Question</h4>
 
                 <div class="input-group mb-3">
                     <label class="form-check">
@@ -147,13 +165,6 @@
                     </label>
 
                 </div>
-
-
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="FamilyIncome">Family Income(Pounds)</span>
-                    <input autocomplete="off" class="form-control" name="FamilyIncome" required type="text" placeholder="For example: 6000"
-                    >
-                </div>
             <hr>
             <button class="btn btn-primary btn-block submit-button" type="submit">Submit
             </button>
@@ -161,17 +172,10 @@
     </div>
 </div>
 </div>
+</div>
 <script>
     $(document).ready(function () {
         $('.submit-button').on('click', function (event) {
-            Swal.fire({
-                title: '处理中...',
-                allowOutsideClick: false,
-                showConfirmButton: false,
-                onBeforeOpen: () => {
-                    Swal.showLoading();
-                }
-            });
             var Name = $('input[name="Name"]').val();
             var Address = $('input[name="Address"]').val();
             var CityRegion = $('input[name="CityRegion"]').val();
@@ -179,21 +183,21 @@
             var Age = $('input[name="Age"]').val();
             var Occupation = $('input[name="Occupation"]').val();
             var FamilyMembers = $('input[name="FamilyMembers"]').val();
-            var FamilyMemberDetails = $('input[name="FamilyMemberDetails"]').val();
-            var HousingType = $('input[name="HousingType"]').val();
+            var FamilyMemberDetails = $('textarea[name="FamilyMemberDetails"]').val();
+            var HousingType = $('select[name="HousingType"]').val();
             var AllowingPets = $('input[name="AllowingPets"]').is(':checked');
-            var ApartmentPetPolicy = $('input[name="ApartmentPetPolicy"]').val();
-            var ApartmentPolicyDetails = $('input[name="ApartmentPolicyDetails"]').val();
-            var PetExperience = $('input[name="PetExperience"]').val();
-            var PreviousPets = $('input[name="PreviousPets"]').is(':checked');//是开关用这个
-            var ReasonToAdopt = $('input[name="ReasonToAdopt"]').is(':checked');
-            var PetCareAndTrainingPlan = $('input[name="PetCareAndTrainingPlan"]').is(':checked');
-            var DailyScheduleImpact = $('input[name="DailyScheduleImpact"]').val();
-            var DailyTimeWithDog = $('input[name="DailyTimeWithDog"]').is(':checked');
+            var ApartmentPetPolicy = $('input[name="ApartmentPetPolicy"]').is(':checked');
+            var ApartmentPolicyDetails = $('textarea[name="ApartmentPolicyDetails"]').val();
+            var PetExperience = $('input[name="PetExperience"]').is(':checked');
+            var PetExperienceDetails= $('textarea[name="PetExperienceDetails"]').val();
+            var ReasonToAdopt = $('textarea[name="ReasonToAdopt"]').val();
+            var PetCareAndTrainingPlan = $('textarea[name="PetCareAndTrainingPlan"]').val();
+            var DailyScheduleImpact = $('textarea[name="DailyScheduleImpact"]').val();
+            var DailyTimeWithDog = $('input[name="DailyTimeWithDog"]').val();
             var ExerciseAndPlay = $('input[name="ExerciseAndPlay"]').is(':checked');
             var VeterinaryCare = $('input[name="VeterinaryCare"]').is(':checked');
             var HomeVisit = $('input[name="HomeVisit"]').is(':checked');
-            var FamilyIncome = $('input[name="FamilyIncome"]').is(':checked');
+            var FamilyIncome = $('input[name="FamilyIncome"]').val();
             var data = {
                 Name: Name,
                 Address: Address,
@@ -208,7 +212,7 @@
                 ApartmentPetPolicy: ApartmentPetPolicy,
                 ApartmentPolicyDetails: ApartmentPolicyDetails,
                 PetExperience: PetExperience,
-                PreviousPets: PreviousPets,
+                PetExperienceDetails: PetExperienceDetails,
                 ReasonToAdopt: ReasonToAdopt,
                 PetCareAndTrainingPlan: PetCareAndTrainingPlan,
                 DailyScheduleImpact: DailyScheduleImpact,
@@ -218,7 +222,7 @@
                 HomeVisit: HomeVisit,
                 FamilyIncome: FamilyIncome,
             };
-            fetch('/user/apply', {
+            fetch('/user/apply/add', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: {
@@ -227,7 +231,7 @@
             })
                 .then(function (response) {
                     if (!response.ok) {
-                        throw new Error('请求失败');
+                        throw new Error('Request failed.');
                     }
                     return response.json();
                 })
@@ -235,19 +239,19 @@
                     if (result.ret === 1) {
                         Swal.fire({
                             icon: 'success',
-                            title: '成功',
+                            title: 'Success',
                             text: result.msg,
                             showConfirmButton: true,
                             timer: 2000,
                             timerProgressBar: true,
                             allowOutsideClick: false
                         }).then(function () {
-                            window.location.href = '/user/apply';
+                            window.location.href = '/user/apply/Applyfinished';
                         });
                     } else {
                         Swal.fire({
                             icon: 'error',
-                            title: '错误',
+                            title: 'error',
                             text: result.msg
                         });
                     }
@@ -255,11 +259,11 @@
                 .catch(function (error) {
                     Swal.fire({
                         icon: 'error',
-                        title: '错误',
-                        text: '系统错误'
+                        title: 'error',
+                        text: 'System error'
                     });
                 });
+
         });
     });
-
 </script>

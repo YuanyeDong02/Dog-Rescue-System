@@ -22,7 +22,7 @@ class applytableinfor extends Validate
         'Occupation' => 'require',
         'FamilyMembers' => 'require|number|between:1,20',
         'FamilyMemberDetails' => 'require',
-        'FamilyIncome' => 'require|number|min:10',
+        'FamilyIncome' => 'require|number|min:0',
         'HousingType' => 'require',
         'AllowingPets' => 'require|boolean',
         'ApartmentPetPolicy' => 'require|boolean',
@@ -36,7 +36,7 @@ class applytableinfor extends Validate
         'ExerciseAndPlay' => 'require|boolean',
         'VeterinaryCare' => 'require|boolean',
         'HomeVisit' => 'require|boolean',
-        'AdditionalInfo' => 'require',
+
 
 
 
@@ -85,7 +85,7 @@ class applytableinfor extends Validate
         'VeterinaryCare.boolean' => 'VeterinaryCare must be a boolean',
         'HomeVisit.require' => 'HomeVisit cannot be empty',
         'HomeVisit.boolean' => 'HomeVisit must be a boolean',
-        'AdditionalInfo.require' => 'AdditionalInfo cannot be empty',
+
 
 
 

@@ -42,6 +42,8 @@ Route::group('user', function () {
     Route::rule('index', 'user/index');
     Route::get('apply/add', 'user/Applyinformation');
     Route::post('apply/add', 'user/postapply');
+    Route::get('apply/Applyfinished', 'user/Applyfinished');
+    Route::get('apply', 'user/Applyprogress');
     Route::rule('logout', 'user/logout');
 })->middleware(UserIndex::class);
 
