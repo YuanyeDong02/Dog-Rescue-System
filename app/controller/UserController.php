@@ -89,4 +89,11 @@ class UserController extends BaseController
 
         return view('user/Applyfinished', ['apply' => $apply]);
     }
+
+    public function logout(): Redirect
+    {
+        Session::delete('userID');
+        Cookie::delete('userID');
+        return redirect('/auth/login');
+    }
 }
