@@ -33,11 +33,11 @@
                         {else}
                         {volist name="users" id="user"}
                         <tr>
-                            <td>{$user.id}</td>
-                            <td>{$user.username}</td>
+
+
                             <td>{$user.email}</td>
-                            <td>{$user.points}</td>
-                            <td>{$user.tel}</td>
+
+
                             <td>
                                 <a class="btn btn-primary" href="/admin/users/{$user.id}">编辑</a>
                                 <button class="btn btn-danger" type="button" data-id="{$user.id}">删除</button>

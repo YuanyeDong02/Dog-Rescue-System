@@ -52,35 +52,16 @@ Route::rule('admin/', 'admin/index')->middleware(Admin::class);
 Route::group('admin', function () {
     Route::rule('/', 'admin/index');
     Route::rule('index', 'admin/index');
-    // 快递相关
-    Route::post('parcels/:id', 'admin/parcelSetStatus');
-    Route::delete('parcels/:id', 'admin/parcelDelete');
-    Route::rule('parcels', 'admin/parcels');
-    // 批量录入页面
-    Route::get('batchParcel', view('admin/batchParcel'));
-    Route::post('batchParcel', 'admin/batchParcel');
-    // 订单相关
-    Route::get('orders/handle/:uid', 'admin/handleOrderPage');
-    Route::post('orders/handle', 'admin/handleOrder');
-    Route::post('orders/update/:uid', 'admin/orderSetStatus');
-    Route::delete('orders/delete/:uid', 'admin/orderDelete');
-    Route::rule('orders', 'admin/orders');
+    Route::get('newDog', 'admin/newDog');
+    Route::post('newDog', 'admin/postnewDog');
+
     // 用户相关
     Route::get('users/:id', 'admin/editUser');
     Route::post('users/:id', 'admin/updateUser');
     Route::delete('users/:id', 'admin/deleteUser');
     Route::rule('users', 'admin/users');
     // 渠道相关
-    Route::get('channels/:add', 'admin/addChannelPage');
-    Route::post('channels/:add', 'admin/addChannel');
-    Route::get('channels/:id', 'admin/channelsDetail');
-    Route::post('channels/:id', 'admin/updateChannel');
-    Route::delete('channels/:id', 'admin/deleteChannel');
-    Route::rule('channels', 'admin/channels');
-    // 网站设置相关
-    Route::get('settings/:id', 'admin/settingDetail');
-    Route::post('settings/:id', 'admin/updateSetting');
-    Route::rule('settings', 'admin/settings');
+   ;
 })->middleware(Admin::class);
 
 Route::miss(function () {

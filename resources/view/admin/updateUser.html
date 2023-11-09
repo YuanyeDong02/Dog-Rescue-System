@@ -16,18 +16,9 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <div class="row">
-                            <div class="col">
-                                <label class="form-label">用户ID</label>
-                                <input class="form-control" name="id" type="text" disabled value="{$user.id}">
-                            </div>
-                            <div class="col">
-                                <label class="form-label">用户名</label>
-                                <input class="form-control" name="username" type="text" value="{$user.username}">
-                            </div>
-                            <div class="col">
-                                <label class="form-label">积分</label>
-                                <input class="form-control" name="points" type="number" value="{$user.points}">
-                            </div>
+
+
+
                         </div>
                         <br>
                         <div class="row">
@@ -66,20 +57,17 @@
 
 <script>
     document.querySelector('.submit').addEventListener('click', function () {
-        var username = document.querySelector('input[name="username"]').value;
-        var points = document.querySelector('input[name="points"]').value;
+
         var email = document.querySelector('input[name="email"]').value;
-        var tel = document.querySelector('input[name="tel"]').value;
+
         var password = document.querySelector('input[name="password"]').value;
         var data = {
-            id: {$user.id},
-            username: username,
-            points: points,
             email: email,
-            tel: tel,
             password: password,
-            admin: document.querySelector('input[name="admin"]').checked
+            tel: document.querySelector('input[name="tel"]').value,
+            admin: document.querySelector('input[name="admin"]').checked,
         };
+
         fetch(url = '/admin/users/{$user.id}', {
             method: 'POST',
             body: JSON.stringify(data),

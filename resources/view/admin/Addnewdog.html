@@ -1,0 +1,194 @@
+{include file="admin/header"}
+<title>Apply form</title>
+<body>
+<div class="page-wrapper">
+    <div class="container">
+        <div class="page-content">
+            <div class="card" style="margin-top: 26px">
+
+
+                <h2 class="card-header bg-primary text-white text-center">Add new dog</h2>
+                <h3 class="card-title bg-primary text-white text-center">Please fill in the form below</h3>
+                <h4 class="card-title bg-primary text-white text-center">Dog Information</h4>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="name">Name</span>
+                                <input autocomplete="off" class="form-control" name="name" required type="text"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="Breed">Breed</span>
+                                <input autocomplete="off" class="form-control" name="Breed" type="text">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="Age">Age</span>
+                                <input autocomplete="off" class="form-control" name="Age" type="text">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="Weight">Weight</span>
+                                <input autocomplete="off" class="form-control" name="Weight" type="text">
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+
+
+
+                    <div class="form-floating">
+                        <select class="form-select" id="Gender" aria-label="Floating label select example" name="Gender" required>
+                            <option selected disabled>Open this select menu and choose your house type </option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Unknow">Unknow</option>
+
+                        </select>
+                        <label for="Gender">Select</label>
+                        <br>
+
+                    </div>
+
+                    <div class="col-sm-12 col-lg-6">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="Color">Age</span>
+                            <input autocomplete="off" class="form-control" name="Color" type="text">
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <label class="form-check">
+                            <input class = "form-check-input" type = "checkbox" value = "" id = "flexCheckDefault" name = "SpayedOrNeutered" >
+                            <span class="form-check-label">SpayedOrNeutered</span>
+                        </label>
+
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="form-check">
+                            <input class = "form-check-input" type = "checkbox" value = "" id = "ApartmentPetPolicy" name = "VaccinationStatus" >
+                            <span class="form-check-label">VaccinationStatus</span>
+                        </label>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <label class="form-check">
+                            <input class = "form-check-input" type = "checkbox" value = "" id = "SpecialNeeds" name = "SpecialNeeds" >
+                            <span class="form-check-label">SpecialNeeds</span>
+                        </label>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="SpecialNeedsDetails">SpecialNeedsDetails</span>
+                        <textarea class="form-control" name="SpecialNeedsDetails" required type = "text"
+                                  rows="5"></textarea>
+
+                    </div>
+
+                    <div class="form-floating">
+                        <select class="form-select" id="AdoptionStatus" aria-label="Floating label select example" name="AdoptionStatus" required>
+                            <option selected disabled>Open this select menu and choose AdoptionStatus </option>
+                            <option value="Available">Available</option>
+                            <option value="Adopted">Adopted</option>
+                            <option value="On Hold">On Hold</option>
+                            <option value="Foster Care">Foster Care</option>
+
+                        </select>
+                        <label for="AdoptionStatus">Select</label>
+                        <br>
+
+                    </div>
+
+
+                    <hr>
+                    <button class="btn btn-primary btn-block submit-button" type="submit">Submit
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('.submit-button').on('click', function (event) {
+            var name = $('input[name="name"]').val();
+            var Breed = $('input[name="Breed"]').val();
+            var Age = $('input[name="Age"]').val();
+            var Gender = $('input[name="Age"]').val();
+            var Colour = $('input[name="Colour"]').val();
+            var Weight = $('input[name="Weight"]').val();
+            var SpayedOrNeutered = $('input[name="SpayedOrNeutered"]').is(':checked');
+            var Vaccinated = $('input[name="Vaccinated"]').is(':checked');
+            var SpecialNeeds = $('input[name="SpecialNeeds"]').is(':checked');
+            var AdoptionRestrictions = $('input[name="AdoptionRestrictions"]').val();
+            var AdoptionStatus = $('input[name="AdoptionStatus"]').val();
+            var data = {
+                name: name,
+                Breed: Breed,
+                Age: Age,
+                Gender: Gender,
+                Colour: Colour,
+                Weight: Weight,
+                SpayedOrNeutered: SpayedOrNeutered,
+                Vaccinated: Vaccinated,
+                SpecialNeeds: SpecialNeeds,
+                AdoptionRestrictions: AdoptionRestrictions,
+                AdoptionStatus: AdoptionStatus
+            };
+            fetch('/admin/newDog', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            })
+                .then(function (response) {
+                    if (!response.ok) {
+                        throw new Error('Request failed.');
+                    }
+                    return response.json();
+                })
+                .then(function (result) {
+                    if (result.ret === 1) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: result.msg,
+                            showConfirmButton: true,
+                            timer: 2000,
+                            timerProgressBar: true,
+                            allowOutsideClick: false
+                        }).then(function () {
+                            window.location.href = '/user/apply/Applyfinished';
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'error',
+                            text: result.msg
+                        });
+                    }
+                })
+                .catch(function (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'error',
+                        text: 'System error'
+                    });
+                });
+
+        });
+    });
+
+</script>

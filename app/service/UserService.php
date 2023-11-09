@@ -39,27 +39,9 @@ class UserService extends Service
         return Db::name('user')->paginate(25);
     }
 
-    public function addPoints(int $userid, int $num): bool
-    {
-        $user = new User();
-        $user = $user->where('id', $userid)->findOrEmpty();
-        if (empty($user)) {
-            return false;
-        }
-        $user->points += $num;
-        return $user->save();
-    }
 
-    public function emptyPoints(int $userid): bool
-    {
-        $user = new User();
-        $user = $user->where('id', $userid)->findOrEmpty();
-        if (empty($user)) {
-            return false;
-        }
-        $user->points = 0;
-        return $user->save();
-    }
+
+
 
     public function updateUser(int $userid, array $data): Json
     {
@@ -101,9 +83,7 @@ class UserService extends Service
         if (in_array('tel', $keys) && $user->tel != $data['tel']) {
             $result['tel'] = $data['tel'];
         }
-        if (in_array('points', $keys) && $user->points != $data['points']) {
-            $result['points'] = $data['points'];
-        }
+
         if (in_array('password', $keys) && $data['password'] != '') {
             $result['password'] = password_hash($data['password'], PASSWORD_ARGON2ID);
         }

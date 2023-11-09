@@ -17,7 +17,7 @@ class AuthController extends BaseController
             if (!captcha_check($captcha)) {
                 return json([
                     'ret' => 0,
-                    'msg' => '验证码错误'
+                    'msg' => 'CAPTCHA error'
                 ]);
             }
         }
@@ -32,7 +32,7 @@ class AuthController extends BaseController
         return env('enable_register') ?
             view('/auth/register') :
             view('/error', [
-                'msg' => '注册功能已关闭'
+                'msg' => 'Registration is disabled'
             ]);
     }
 
@@ -41,7 +41,7 @@ class AuthController extends BaseController
         if (!env('enable_register')) {
             return json([
                 'ret' => 0,
-                'msg' => '注册功能已关闭'
+                'msg' => 'Registration is disabled'
             ]);
         }
         if (env('enable_captcha')) {
@@ -49,7 +49,7 @@ class AuthController extends BaseController
             if (!captcha_check($captcha)) {
                 return json([
                     'ret' => 0,
-                    'msg' => '验证码错误'
+                    'msg' => 'CAPTCHA error'
                 ]);
             }
         }
@@ -67,7 +67,7 @@ class AuthController extends BaseController
             if (!captcha_check($captcha)) {
                 return json([
                     'ret' => 0,
-                    'msg' => '验证码错误'
+                    'msg' => 'CAPTCHA error'
                 ]);
             }
         }
