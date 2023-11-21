@@ -4,14 +4,9 @@ declare (strict_types=1);
 namespace app\controller;
 
 use app\BaseController;
-use app\model\Address;
 use app\model\Apply;
-use app\model\Channel;
-use app\model\Order;
-use app\model\Parcel;
-use app\validate\applytableinfor;
+use app\model\newdog;
 use think\console\Output;
-use think\exception\ValidateException;
 use think\facade\Cookie;
 use think\facade\Db;
 use think\facade\Session;
@@ -25,7 +20,9 @@ class UserController extends BaseController
 {
     public function index(): View
     {
-        return view('user/index');
+        $dog = new newdog();
+        $dog = $dog->field("id")->select();
+        return view('user/index',['dogs' => $dog]);
     }
 
     public function Applyinformation(): View
@@ -95,5 +92,17 @@ class UserController extends BaseController
         Session::delete('userID');
         Cookie::delete('userID');
         return redirect('/auth/login');
+    }
+    public function dogname($id): ?File
+    {
+        $photo = Db::table('newdog')->where('id', $id)->select("image");
+        if ($photo->isEmpty()) {
+            return null;
+        } else {
+            $filepath = app()->getRootPath() . "storage/". $photo[0]["image"];
+            $file = new File($filepath);
+            return $file;
+        }
+
     }
 }

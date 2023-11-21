@@ -44,7 +44,9 @@ Route::group('user', function () {
     Route::post('apply/add', 'user/postapply');
     Route::get('apply/Applyfinished', 'user/Applyfinished');
     Route::get('apply', 'user/Applyprogress');
+    Route::get('dogname/:id', 'user/dogname');
     Route::rule('logout', 'user/logout');
+
 })->middleware(UserIndex::class);
 
 // 注册admin

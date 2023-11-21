@@ -68,7 +68,7 @@ class AdminController extends BaseController
     public function postnewdog(Request $request)
     {
         $postinformation = array();
-        $postinformation['name'] = $request->param('Name');
+        $postinformation['Name'] = $request->param('Name');
         $postinformation['Breed'] = $request->param('Breed');
         $postinformation['Age'] = $request->param('Age');
         $postinformation['Gender'] = $request->param('Gender');
@@ -80,7 +80,8 @@ class AdminController extends BaseController
         $postinformation['AdoptionRestrictions'] = $request->param('AdoptionRestrictions');
         $postinformation['AdoptionsStatus'] = $request->param('AdoptionsStatus');
         $postfile = request()->file('image');
-        Filesystem::putFile( 'dogimg', $postfile);
+        $saveName = Filesystem::putFile( 'dogimg', $postfile);
+        $postinformation['image'] = $saveName;
         return $this->app->ApplyService->dogtable($postinformation);
 
 

@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace app\service;
 
 use app\model\Apply;
+use app\model\newdog;
 use app\validate\applytableinfor;
 use app\validate\dogtableinfor;
 use think\console\Output;
