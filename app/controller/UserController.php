@@ -25,9 +25,9 @@ class UserController extends BaseController
         return view('user/index',['dogs' => $dog]);
     }
 
-    public function Applyinformation(): View
+    public function Applyinformation($id): View
     {
-        return view('user/Applyinformation');
+        return view('user/Applyinformation',['dogid' => $id]);
     }
 
     public function postapply(Request $request): Json
@@ -56,6 +56,7 @@ class UserController extends BaseController
         $postinformation['ExerciseAndPlay'] = $request->param('ExerciseAndPlay');
         $postinformation['VeterinaryCare'] = $request->param('VeterinaryCare');
         $postinformation['HomeVisit'] = $request->param('HomeVisit');
+        $postinformation['dogid'] = $request->param('dogid');
 
         return $this->app->ApplyService->applytable($postinformation);
     }

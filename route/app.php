@@ -40,7 +40,7 @@ Route::rule('user/', 'user/index')->middleware(UserIndex::class);
 Route::group('user', function () {
     Route::rule('/', 'user/index');
     Route::rule('index', 'user/index');
-    Route::get('apply/add', 'user/Applyinformation');
+    Route::get('apply/add/:id', 'user/Applyinformation');
     Route::post('apply/add', 'user/postapply');
     Route::get('apply/Applyfinished', 'user/Applyfinished');
     Route::get('apply', 'user/Applyprogress');

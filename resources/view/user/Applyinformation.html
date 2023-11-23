@@ -22,6 +22,13 @@
 
                     <div class="col-sm-12 col-lg-6">
                         <div class="input-group mb-3">
+                            <span class="input-group-text" id="dogid">Dog ID</span>
+                            <input autocomplete="off" class="form-control" name="dogid" required type="text" value="{$dogid}" disabled>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-lg-6">
+                        <div class="input-group mb-3">
                             <span class="input-group-text" id="Address">address</span>
                             <input autocomplete="off" class="form-control" name="Address" type="text">
                         </div>
@@ -198,6 +205,7 @@
             var VeterinaryCare = $('input[name="VeterinaryCare"]').is(':checked');
             var HomeVisit = $('input[name="HomeVisit"]').is(':checked');
             var FamilyIncome = $('input[name="FamilyIncome"]').val();
+            var dogid = {$dogid};
             var data = {
                 Name: Name,
                 Address: Address,
@@ -221,6 +229,7 @@
                 VeterinaryCare: VeterinaryCare,
                 HomeVisit: HomeVisit,
                 FamilyIncome: FamilyIncome,
+                dogid: dogid,
             };
             fetch('/user/apply/add', {
                 method: 'POST',
