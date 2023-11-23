@@ -105,4 +105,9 @@ class UserController extends BaseController
         }
 
     }
+    public function dogdetail($id): View
+    {
+        $dog = newdog::where('id', $id)->find();
+        return view('user/dogdetail', ['dog' => $dog]);
+    }
 }

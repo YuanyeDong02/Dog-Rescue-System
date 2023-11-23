@@ -1,0 +1,108 @@
+{include file="user/header"}
+<title>Apply form</title>
+<body>
+<div class="page-wrapper">
+    <div class="container">
+        <div class="page-content">
+            <div class="card" style="margin-top: 26px">
+
+
+                <h2 class="card-header bg-primary text-white text-center">Dog Details</h2>
+
+                <div class="card-body">
+                    <div class="row">
+
+
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="name">Name</span>
+                                <input autocomplete="off" class="form-control" name="Name" value="{$dog.Name}" type="text" disabled
+                                >
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="Breed">Breed</span>
+                                <input autocomplete="off" class="form-control" name="Breed" value="{$dog.Breed}" type="text" disabled>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="Age">Age</span>
+                                <input autocomplete="off" class="form-control" name="Age" value="{$dog.Age}" type="text" disabled>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="Weight">Weight</span>
+                                <input autocomplete="off" class="form-control" name="Weight" value="{$dog.Weight}" type="text" disabled>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="Colour">Color</span>
+                                <input autocomplete="off" class="form-control" name="Color" value="{$dog.Color}" type="text" disabled>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-sm-12 col-lg-6">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="Gender">Gender</span>
+                            <input autocomplete="off" class="form-control" name="Color" value="{$dog.Gender}" type="text" disabled>
+                        </div>
+                    </div>
+
+
+                    <div class="input-group mb-3">
+                        <label class="form-check">
+                            <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="SpayedOrNeutered" {$dog.SpayedOrNeutered? 'checked' : '' }>
+                            <span class="form-check-label">SpayedOrNeutered</span>
+                        </label>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <label class="form-check">
+                            <input class = "form-check-input" type = "checkbox" value = "" id = "VaccinationStatus" name = "VaccinationStatus" {$dog.VaccinationStatus? 'checked' : '' }>
+                            <span class="form-check-label">VaccinationStatus</span>
+                        </label>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <label class="form-check">
+                            <input class = "form-check-input" type = "checkbox" value = "" id = "SpecialNeeds" name = "SpecialNeeds" {$dog.SpecialNeeds? 'checked' : '' }>
+                            <span class="form-check-label">SpecialNeeds</span>
+                        </label>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="AdoptionRestrictions">AdoptionRestrictions</span>
+                        <textarea class="form-control" name="AdoptionRestrictions" required type="text" rows="5">{$dog.AdoptionRestrictions}</textarea>
+                    </div>
+
+
+
+
+
+                    <div class="col-sm-12 col-lg-6">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="AdoptionStatus">AdoptionStatus</span>
+                            <input autocomplete="off" class="form-control" name="AdoptionStatus" value="{$dog.AdoptionStatus}" type="text" disabled>
+                        </div>
+                    </div>
+
+
+
+
+                    <hr>
+                    <a class="btn btn-primary btn-block submit-button" href="/user/apply/add" role="button">Apply</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
