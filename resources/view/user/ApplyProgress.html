@@ -22,11 +22,22 @@
             </div>
             <div class = "card">
                 <div class="card-body">
+                    {if $result==1}
                     <ul class="steps steps-green steps-counter my-4">
                         <li class="step-item {if $step==0}active{/if}">Submit an application</li>
                         <li class="step-item {if $step==1}active{/if}">Approval in progress</li>
-                        <li class="step-item {if $step==2}active{/if}">Approval Passed/Rejected</li>
+                        <li class="step-item {if $step==2}active{/if}">Approval Success</li>
                     </ul>
+
+                    {else}
+                    <ul class="steps steps-red steps-counter my-4">
+                        <li class="step-item {if $step==0}active{/if}">Submit an application</li>
+                        <li class="step-item {if $step==1}active{/if}">Approval in progress</li>
+                        <li class="step-item {if $step==2}active{/if}">Approval Rejected</li>
+                    </ul>
+                    {/if}
+                </div>
+
                 </div>
             </div>
         </div>

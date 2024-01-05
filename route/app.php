@@ -55,8 +55,12 @@ Route::rule('admin/', 'admin/index')->middleware(Admin::class);
 Route::group('admin', function () {
     Route::rule('/', 'admin/index');
     Route::rule('index', 'admin/index');
+    Route::get('apply/:id', 'admin/viewaplly');
     Route::get('newDog', 'admin/newDog');
     Route::post('newDog', 'admin/postnewDog');
+    Route::put('apply/:id', 'admin/applysuccess');
+    Route::delete('apply/:id', 'admin/applureject');
+
 
     // 用户相关
     Route::get('users/:id', 'admin/editUser');

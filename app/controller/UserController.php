@@ -68,17 +68,12 @@ class UserController extends BaseController
         if ($apply->isEmpty()) {
             $step = 0;
 
-        } elseif ($apply->active == 0) {
+        } elseif ($apply->active == 0 and $apply->statuses == 0) {
             $step = 1;
         }else{
             $step = 2;
     }
-
-
-
-
-
-        return view('user/Applyprogress', ['step' => $step]);
+        return view('user/Applyprogress', ['step' => $step,'result'=>$apply->result]);
     }
 
     public function Applyfinished(): View

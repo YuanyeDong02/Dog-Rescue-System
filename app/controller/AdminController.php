@@ -5,6 +5,9 @@ namespace app\controller;
 
 use app\BaseController;
 
+use app\model\Apply;
+use app\model\User;
+use think\facade\Db;
 use think\facade\Filesystem;
 use think\Request;
 use think\response\Json;
@@ -14,8 +17,62 @@ class AdminController extends BaseController
 {
     public function index()
     {
-        return view('admin/index');
+        $apply = Db::table('apply')
+            ->join('user', 'apply.userid = user.id')
+            ->where('apply.active',0)
+            ->field("user.email,apply.Name,apply.id,apply.statuses,apply.result")
+        ->select();
+        return view('admin/index', [
+            'statuses' => $apply
+        ]);
+
+
+
     }
+    public function applysuccess($id)
+    {
+        $apply = Apply::where('id', $id)->findOrEmpty();
+        if (!$apply->isExists()) {
+            return json([
+                'msg' => "Apply does not exist",
+                'ret' => 0
+            ]);
+        }
+        $apply->result = 1;
+        $apply->statuses = 1;
+        $apply->save();
+        return json(['ret' => 1, 'msg' => 'accept successfully']);
+    }
+    public function applureject($id)
+    {
+
+        $apply = Apply::where('id', $id)->findOrEmpty();
+        if ($apply->isEmpty()) {
+            return json([
+                'msg' => "Apply does not exist",
+                'ret' => 0
+            ]);
+        }
+        $apply->result = 0;
+        $apply->statuses = 1;
+        $apply->save();
+        return json(['ret' => 1, 'msg' => 'reject successfully']);
+    }
+
+
+
+    public function viewaplly($id)
+    {
+        $apply = Apply::where('id', $id)->findOrEmpty();
+        $user = User::where('id', $apply->userid)->findOrEmpty();
+        return view('admin/applydetail', [
+            'apply' => $apply,
+            'user' => $user
+        ]);
+    }
+
+
+
 
 
 
@@ -92,9 +149,6 @@ class AdminController extends BaseController
     {
         return view('admin/Addnewdog');
     }
-
-
-
 
 
 
