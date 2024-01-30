@@ -51,7 +51,7 @@ class UserService extends Service
         if (empty($user)) {
             return json([
                 'ret' => 0,
-                'msg' => '用户不存在'
+                'msg' => 'User does not exist'
             ]);
         }
         // 更新用户信息
@@ -63,7 +63,7 @@ class UserService extends Service
             if (!empty($check)) {
                 return json([
                     'ret' => 0,
-                    'msg' => '用户名已存在'
+                    'msg' => 'Username already exists'
                 ]);
             }
             unset($check);
@@ -75,7 +75,7 @@ class UserService extends Service
             if (!empty($check)) {
                 return json([
                     'ret' => 0,
-                    'msg' => '邮箱已存在'
+                    'msg' => 'Email already exists'
                 ]);
             }
             $result['email'] = $data['email'];
@@ -93,12 +93,12 @@ class UserService extends Service
         if ($user->update($result, ['id' => $userid])) {
             return json([
                 'ret' => 1,
-                'msg' => '更新成功'
+                'msg' => 'Successful update'
             ]);
         } else {
             return json([
                 'ret' => 0,
-                'msg' => '更新失败'
+                'msg' => 'update failure'
             ]);
         }
     }
