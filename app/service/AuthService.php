@@ -5,6 +5,7 @@ namespace app\service;
 
 use app\model\Token;
 use app\model\User;
+use think\facade\Cache;
 use think\facade\Cookie;
 use think\facade\Session;
 use think\facade\View;
@@ -154,45 +155,34 @@ class AuthService extends Service
                 'ret' => 0
             ]);
         }
-        $username = $user->username;
+
         // 生成随机链接
         $code = generateToken(32);
-        $link = env("APP.URL") . "/resetLink?code=" . $code;
+        $link = env("APP.URL") . "/auth/resetLink?code=" . $code;
         // 生成邮件内容
         // 从/resources/email/reset.html读取文件
         $content = View::fetch(app()->getRootPath() . "resources/email/reset.html", [
-            'username' => $username,
             'link' => $link
         ]);
-        // 保存code
-        $token = new Token();
-        $token->token = $code;
-        $token->userID = $user->id;
-        $token->expire = date('Y-m-d H:i:s', strtotime('+1 day'));
-        $token->type = 'reset';
-        $token->save();
+
+        $name = 'reset_' . $code;
+
+        Cache::set($name, $user->id, 3600);
         // 发送邮件
         return $this->app->mailService->sendmail($email, "Password reset request", $content);
     }
 
     public function resetPassword(string $code, string $password): Json
     {
-        $token = new Token();
-        $token = $token->where('token', $code)->where('type', 'reset')->findOrEmpty();
-        if (!$token->isExists()) {
+        $userid = Cache::pull('reset_' . $code);
+        if (empty($userid)) {
             return json([
                 'msg' => "Invalid link",
                 'ret' => 0
             ]);
         }
-        if ($token->expire < date('Y-m-d H:i:s')) {
-            return json([
-                'msg' => "Link has expired, please regenerate",
-                'ret' => 0
-            ]);
-        }
         $user = new User();
-        $user = $user->where('id', $token->userID)->findOrEmpty();
+        $user = $user->where('id', $userid)->findOrEmpty();
         if (!$user->isExists()) {
             return json([
                 'msg' => "Unable to match the corresponding user",
@@ -206,12 +196,16 @@ class AuthService extends Service
                 'ret' => 0
             ]);
         } else {
-            // 摧毁token
-            $token->delete();
             return json([
                 'msg' => "Please use new password to log in",
                 'ret' => 1
             ]);
         }
     }
+
+
+
+
+
+
 }

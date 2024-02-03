@@ -12,7 +12,6 @@
 use app\middleware\Admin;
 use app\middleware\Auth;
 use app\middleware\UserIndex;
-use app\middleware\ResetLink;
 use think\facade\Route;
 
 // 注册index
@@ -29,11 +28,9 @@ Route::group('auth', function () {
     Route::get('reset', view('auth/reset'));
     Route::post('reset', 'auth/reset');
     Route::post('resetPassword', 'auth/resetPassword');
+    Route::get('resetLink', 'ResetLink/index');
+    Route::get('invalidLink', view('auth/linkNotFound'));
 })->middleware(Auth::class);
-
-// 注册重置链接
-Route::get('resetLink', 'ResetLink/index')->middleware(ResetLink::class);
-Route::get('invalidLink', view('auth/linkNotFound'));
 
 // 注册user
 Route::rule('user/', 'user/index')->middleware(UserIndex::class);

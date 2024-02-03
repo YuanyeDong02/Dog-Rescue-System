@@ -4,7 +4,9 @@ declare (strict_types=1);
 namespace app\service;
 
 use app\model\User;
+use think\facade\Cache;
 use think\facade\Db;
+use think\facade\View;
 use think\Paginator;
 use think\response\Json;
 use think\Service;
@@ -113,12 +115,37 @@ class UserService extends Service
         return $user->delete();
     }
 
-    public function getSumCost(int $id): float
+
+
+    public function Statussucess (string $email): Json
     {
-        $sum = Db::name('orders')->where('userID', $id)->sum('price');
-        if (empty($sum)) {
-            return 0;
-        }
-        return $sum;
+
+
+        $link = env("APP.URL");
+        // 生成邮件内容
+        // 从/resources/email/reset.html读取文件
+        $content = View::fetch(app()->getRootPath() . "resources/email/Statussucess.html", [
+            'link' => $link
+        ]);
+
+
+        // 发送邮件
+        return $this->app->mailService->sendmail($email, "Password reset request", $content);
+    }
+
+    public function Statusreject (string $email): Json
+    {
+
+
+        $link = env("APP.URL");
+        // 生成邮件内容
+        // 从/resources/email/reset.html读取文件
+        $content = View::fetch(app()->getRootPath() . "resources/email/Statusreject.html", [
+            'link' => $link
+        ]);
+
+
+        // 发送邮件
+        return $this->app->mailService->sendmail($email, "Password reset request", $content);
     }
 }

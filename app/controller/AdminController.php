@@ -41,7 +41,22 @@ class AdminController extends BaseController
         $apply->result = 1;
         $apply->statuses = 1;
         $apply->save();
+
+    //获取用户邮箱
+        $user = User::where('id', $apply->userid)->findOrEmpty();
+        if ($user->isEmpty()) {
+            return json([
+                'msg' => "User does not exist",
+                'ret' => 0
+            ]);
+        }
+        $email = $user->email;
+
+
+        $this->app->userService->Statussucess($email);
+
         return json(['ret' => 1, 'msg' => 'accept successfully']);
+
     }
     public function applureject($id)
     {
@@ -56,6 +71,20 @@ class AdminController extends BaseController
         $apply->result = 0;
         $apply->statuses = 1;
         $apply->save();
+
+        $user = User::where('id', $apply->userid)->findOrEmpty();
+        if ($user->isEmpty()) {
+            return json([
+                'msg' => "User does not exist",
+                'ret' => 0
+            ]);
+        }
+        $email = $user->email;
+
+
+        return $this->app->userService->Statusreject($email);
+
+
         return json(['ret' => 1, 'msg' => 'reject successfully']);
     }
 
