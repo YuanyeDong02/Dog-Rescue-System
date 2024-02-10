@@ -1,127 +1,182 @@
 {include file="user/header"}
-
-<head>
-    <title>个人中心</title>
-</head>
-
+<title>Apply form</title>
 <body>
-<div class="page">
-    <div class="content">
-        <div class="container-xl">
-            <div class="row justify-content-center">
-                <div class="col-lg-6">
-                    <div class="card" style="margin-top: 2%">
-                        <div class="card-body">
-                            <h5 class="card-title">编辑个人信息</h5>
-                            <form id="userForm">
-                                <div class="mb-3">
-                                    <label class="form-label" for="username">邮箱</label>
-                                    <input class="form-control" id="email" type="email" value="{$user.email}">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="username">用户名</label>
-                                    <input class="form-control" id="username" placeholder="请输入用户名" type="text"
-                                           value="{$user.username}">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="password">密码</label>
-                                    <input class="form-control" id="password" placeholder="不需要修改请留空"
-                                           type="password">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="tel">手机号码</label>
-                                    <input class="form-control" id="tel" placeholder="请输入手机号码" type="tel"
-                                           value="{$user.tel}">
-                                </div>
-                                <button class="btn btn-primary" onclick="saveUser()" type="button">保存</button>
-                            </form>
+<div class="page-wrapper">
+    <div class="container">
+        <div class="page-content">
+            <div class="card" style="margin-top: 26px">
+
+
+                <h2 class="card-header bg-primary text-white text-center">apply form</h2>
+                <h3 class="card-title bg-primary text-white text-center">Please fill in the form below</h3>
+                <h4 class="card-title bg-primary text-white text-center">Personal Information</h4>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="Name">Name</span>
+                                <input autocomplete="off" class="form-control" name="Name" value="{$apply.Name}" type="text" disabled
+                                >
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="dogid">Dog ID</span>
+                                <input autocomplete="off" class="form-control" name="dogid"  value="{$apply.dogid}" disabled>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="Address">address</span>
+                                <input autocomplete="off" class="form-control" name="Address"  value="{$apply.Address}" type="text" disabled>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="CityRegion">CityRegion</span>
+                                <input autocomplete="off" class="form-control" name="CityRegion" value="{$apply.CityRegion}" type="text" disabled>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="PostalCode">PostalCode</span>
+                                <input autocomplete="off" class="form-control" name="PostalCode" type="text" value="{$apply.PostalCode}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="Age">Age</span>
+                                <input autocomplete="off" class="form-control" name="Age" value="{$apply.Age}" type="text" disabled>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="Occupation">Occupation</span>
+                                <input autocomplete="off" class="form-control" name="Occupation" value="{$apply.Occupation}" type="text" disabled>
+
+                            </div>
                         </div>
                     </div>
+
+                    <h4 class="card-title bg-primary text-white text-center">Family Information</h4>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="FamilyMembers">FamilyMembers</span>
+                        <input autocomplete="off" class="form-control" name="FamilyMembers" value="{$apply.FamilyMembers}" type="text" disabled>
+                    </div>
+
+
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="FamilyMemberDetails">FamilyMemberDetails</span>
+                        <textarea class="form-control" name="FamilyMemberDetails" disabled rows="5" >{$apply.FamilyMemberDetails}</textarea>
+
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="FamilyIncome">Family Income(Pounds)</span>
+                        <input autocomplete="off" class="form-control" name="FamilyIncome" value="{$apply.FamilyIncome}" type="text" disabled>
+                        >
+                    </div>
+
+                    <h4 class="card-title bg-primary text-white text-center">Residence Information</h4>
+                    <div class="form-floating">
+                        <input class="form-select" id="floatingSelect" aria-label="Floating label select example" name="HousingType" value="{$apply.HousingType}" type="text" disabled >
+                        <!--                            <option selected disabled>Open this select menu and choose your house type </option>-->
+                        <!--                            <option value="House" {if $apply.HousingType=="House"}selected{/if}>House</option>-->
+                        <!--                            <option value="Apartment"{if $apply.HousingType=="Apartment"}selected{/if}>Flat</option>-->
+                        <!--                            <option value="Townhouse" {if $apply.HousingType=="Townhouse"}selected{/if}>Townhouse</option>-->
+                        <!--                            <option value="MobileHome" {if $apply.HousingType=="MobileHome"}selected{/if}>MobileHome</option>-->
+                        </input>
+                        <label for="floatingSelect">Select</label>
+                        <br>
+
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="form-check">
+                            <input class = "form-check-input" type = "checkbox" value = "" id = "flexCheckDefault" name = "AllowingPets" {$apply.AllowingPets? 'checked' : ''} disabled>
+                            <span class="form-check-label">Allow pets</span>
+                        </label>
+
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="form-check">
+                            <input class = "form-check-input" type = "checkbox" value = "" id = "ApartmentPetPolicy" name = "ApartmentPetPolicy" {$apply.ApartmentPetPolicy? 'checked' : ''} disabled>
+                            <span class="form-check-label">If it's a flat, while having a pet policy limit</span>
+                        </label>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="ApartmentPolicyDetails">ApartmentPolicyDetails</span>
+                        <textarea class="form-control" name="ApartmentPolicyDetails" required
+                                  rows="5" disabled>{$apply.ApartmentPolicyDetails}</textarea>
+                    </div>
+
+                    <h4 class="card-title bg-primary text-white text-center">Pet Experience</h4>
+                    <div class="input-group mb-3">
+                        <label class="form-check">
+                            <input class = "form-check-input" type = "checkbox" value = "" id = "PetExperience" name = "PetExperience" {$apply.PetExperience? 'checked' : ''} disabled >
+                            <span class="form-check-label">Ever had experience with pets?</span>
+                        </label>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="PetExperienceDetails">If you have ever had a pet, <br>please describe in detail the type of pet,<br> if not, please fill in No.</span>
+                        <textarea class="form-control" name="PetExperienceDetails" required type="text" rows="5">{$apply.PetExperienceDetails}</textarea>
+                    </div>
+                    <h4 class="card-title bg-primary text-white text-center">Dog ownership scheme</h4>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="ReasonToAdopt">ReasonToAdopt</span>
+                        <textarea class="form-control" name="ReasonToAdopt" required type = "text"
+                                  rows="5">{$apply.ReasonToAdopt}</textarea>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="PetCareAndTrainingPlan">PetCareAndTrainingPlan</span>
+                        <textarea class="form-control" name="PetCareAndTrainingPlan"  type = "text"
+                                  rows="5">{$apply.PetCareAndTrainingPlan}</textarea>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="DailyScheduleImpact">How your daily life and work<br> schedule affects dog care</span>
+                        <textarea class="form-control" name="DailyScheduleImpact" required type = "text"
+                                  rows="5">{$apply.DailyScheduleImpact}</textarea>
+
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="DailyTimeWithDog">Daily Time With Dog (Hour)</span>
+                        <input autocomplete="off" class="form-control" name="DailyTimeWithDog"  type="text" value="{$apply.DailyTimeWithDog}" disabled>
+
+                    </div>
+                    <h4 class="card-title bg-primary text-white text-center">Other Question</h4>
+
+                    <div class="input-group mb-3">
+                        <label class="form-check">
+                            <input class = "form-check-input" type = "checkbox" value = "" id = "ExerciseAndPlay" name = "ExerciseAndPlay" {$apply.ExerciseAndPlay? 'checked' : ''} disabled >
+                            <span class="form-check-label">Are you willing to provide your dog with adequate exercise and movement</span>
+                        </label>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="form-check">
+                            <input class = "form-check-input" type = "checkbox" value = "" id = "VeterinaryCare" name = "VeterinaryCare" {$apply.VeterinaryCare? 'checked' : ''} disabled >
+                            <span class="form-check-label">Are you willing to cover the cost of veterinary care and health care</span>
+                        </label>
+
+
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="form-check">
+                            <input class = "form-check-input" type = "checkbox" value = "" id = "HomeVisit" name = "HomeVisit" {$apply.HomeVisit? 'checked' : ''} disabled >
+                            <span class="form-check-label">Are you willing to allow the adoption agency to conduct a home visit</span>
+                        </label>
+
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 </body>
-
-<script>
-    function saveUser() {
-        var email = document.getElementById('email').value;
-        var username = document.getElementById('username').value;
-        var password = document.getElementById('password').value;
-        var tel = document.getElementById('tel').value;
-
-        if (email.trim() === '') {
-            Swal.fire({
-                icon: 'error',
-                title: '错误',
-                text: '请输入邮箱'
-            });
-            return;
-        }
-        if (username.trim() === '') {
-            Swal.fire({
-                icon: 'error',
-                title: '错误',
-                text: '请输入用户名'
-            });
-            return;
-        }
-        if (tel.trim() === '') {
-            Swal.fire({
-                icon: 'error',
-                title: '错误',
-                text: '请输入手机号'
-            });
-            return;
-        }
-        var data = {
-            username: username,
-            password: password,
-            email: email,
-            tel: tel
-        };
-
-        fetch('/user/settings', {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(function (response) {
-                if (!response.ok) {
-                    throw new Error('请求失败');
-                }
-                return response.json();
-            })
-            .then(function (result) {
-                if (result.ret === 1) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: '成功',
-                        text: result.msg,
-                        showConfirmButton: true,
-                        timer: 2000,
-                        timerProgressBar: true,
-                        allowOutsideClick: false
-                    }).then(function () {
-                        window.location.href = '/user/settings';
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: '错误',
-                        text: result.msg
-                    });
-                }
-            })
-            .catch(function (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: '错误',
-                    text: '系统错误'
-                });
-            });
-    }
-</script>

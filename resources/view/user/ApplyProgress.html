@@ -39,9 +39,54 @@
                 </div>
 
                 </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <h2 class="page-title">
+                Select a time for the interview
+            </h2>
+
+            <div class="input-icon">
+                {if $result==1}
+
+                <input class="form-control" placeholder="Select a date" id="datepicker-icon-prepend"  type="datetime-local" >
+                <br>
+
+                <button class="btn btn-primary" id="saveTimeButton">Save</button>
+
+
+                {/if}
+
+            </div>
+
             </div>
         </div>
     </div>
 </div>
+
+
+<script>
+    document.getElementById('saveTimeButton').addEventListener('click', function() {
+        var selectedTime = document.getElementById('datepicker-icon-prepend').value;
+
+        var xhr = new XMLHttpRequest();
+
+        xhr.open("POST", "apply/applyprogress", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                alert("time saved");
+            }
+        }
+        xhr.send("time=" + encodeURIComponent(selectedTime));
+    });
+</script>
 
 

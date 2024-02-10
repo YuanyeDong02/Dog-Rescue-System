@@ -44,6 +44,9 @@ Route::group('user', function () {
     Route::get('dogdetail/:id', 'user/dogdetail');
     Route::get('dogname/:id', 'user/dogname');
     Route::rule('logout', 'user/logout');
+    Route::get('settings', 'user/viewapply');
+    Route::post('apply/applyprogress', 'user/savetime');
+
 
 })->middleware(UserIndex::class);
 

@@ -130,7 +130,7 @@ class UserService extends Service
 
 
         // 发送邮件
-        return $this->app->mailService->sendmail($email, "Password reset request", $content);
+        return $this->app->mailService->sendmail($email, "Request Approved", $content);
     }
 
     public function Statusreject (string $email): Json
@@ -146,6 +146,35 @@ class UserService extends Service
 
 
         // 发送邮件
-        return $this->app->mailService->sendmail($email, "Password reset request", $content);
+        return $this->app->mailService->sendmail($email, "Reject request", $content);
+    }
+
+    public function Timebooking (string $email, int $userid): Json
+    {
+        $link = env("APP.URL");
+        // Assuming 'userid' is the column in 'selecttime' table that refers to the user
+        $time1 = Db::name('selecttime')->where('userid', $userid)->order('id', 'desc')->value('time');
+        $code = Db::name('selecttime')->where('userid', $userid)->order('id', 'desc')->value('link');
+        // 生成邮件内容
+        // 从/resources/email/reset.html读取文件
+        $content = View::fetch(app()->getRootPath() . "resources/email/Timebooking.html", [
+            'link' => $link,
+            'time' => $time1,
+            'code' => $code
+        ]);
+
+        $content1 = View::fetch(app()->getRootPath() . "resources/email/Adminbooking.html", [
+            'link' => $link,
+            'time' => $time1,
+            'userid' => $userid,
+            'code' => $code
+        ]);
+
+
+        $admin = Db::name('user')->where('admin', 1)->orderRaw('rand()')->find();
+        $adminEmail = $admin['email'];
+        $this->app->mailService->sendmail($adminEmail, "Meeting Booking Success", $content1);
+        return $this->app->mailService->sendmail($email, "Meeting Booking Success", $content);
+
     }
 }

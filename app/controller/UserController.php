@@ -6,10 +6,12 @@ namespace app\controller;
 use app\BaseController;
 use app\model\Apply;
 use app\model\newdog;
+use app\model\User;
 use think\console\Output;
 use think\facade\Cookie;
 use think\facade\Db;
 use think\facade\Session;
+use think\helper\Str;
 use think\Request;
 use think\response\File;
 use think\response\Json;
@@ -83,6 +85,22 @@ class UserController extends BaseController
         return view('user/Applyfinished', ['apply' => $apply]);
     }
 
+    public function viewapply()
+    {
+
+        $apply = Apply::where('userid', Session::get('userID'))
+            ->order('created_at', 'desc')
+            ->limit(1)->findOrEmpty();
+
+        if ($apply === null) {
+            throw new \Exception('No application found for the user.');
+        } else {
+
+            return view('user/settings', ['apply' => $apply]);
+        }
+    }
+
+
     public function logout(): Redirect
     {
         Session::delete('userID');
@@ -106,4 +124,40 @@ class UserController extends BaseController
         $dog = newdog::where('id', $id)->find();
         return view('user/dogdetail', ['dog' => $dog]);
     }
+
+    public function savetime(Request $request): Json
+    {
+        $userid = Session::get('userID');
+        $time = $request->param('time');
+        $result = Db::name('selecttime')
+        ->insert([
+            'userid' => $userid,
+            'time' => $time,
+            'link' => Str::random(20)
+        ]);
+        //获取用户邮箱
+        $user = User::where('id', $userid)->findOrEmpty();
+        if ($user->isEmpty()) {
+            return json([
+                'msg' => "User does not exist",
+                'ret' => 0
+            ]);
+        }
+        $email = $user->email;
+        $this->app->userService->Timebooking($email, $userid);
+
+
+
+        if ($result) {
+
+            return json(['status' => 'success', 'message' => 'Time saved successfully']);
+        } else {
+            return json(['status' => 'error', 'message' => 'Failed to save time']);
+        }
+
+    }
+
+
+
+
 }
