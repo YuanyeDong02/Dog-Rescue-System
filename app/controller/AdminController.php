@@ -179,6 +179,11 @@ class AdminController extends BaseController
         return view('admin/Addnewdog');
     }
 
+    public function videocalladmin():view
+    {
+        return view('admin/videocalladmin');
+    }
+
 
 
 

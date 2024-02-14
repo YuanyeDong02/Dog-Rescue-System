@@ -1,0 +1,34 @@
+{include file="user/header"}
+
+<div id="meet" ></div>
+
+<style>
+    #meet {
+        text-align: right;
+    }
+    #meet > div {
+        display: inline-block;
+    }
+</style>
+
+
+
+
+
+
+<script src='https://meet.amns.top/external_api.js'></script>
+<script>
+    var domain = 'meet.amns.top';
+    var options = {
+        roomName: '$code',
+        width: 1450,
+        height: 895,
+
+
+        parentNode: document.querySelector('#meet'),
+        lang: 'en'
+    };
+    var api = new JitsiMeetExternalAPI(domain, options);
+
+
+</script>

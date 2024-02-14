@@ -46,6 +46,7 @@ Route::group('user', function () {
     Route::rule('logout', 'user/logout');
     Route::get('settings', 'user/viewapply');
     Route::post('apply/applyprogress', 'user/savetime');
+    Route::get('videocall', 'user/videocall');
 
 
 })->middleware(UserIndex::class);
@@ -60,6 +61,8 @@ Route::group('admin', function () {
     Route::post('newDog', 'admin/postnewDog');
     Route::put('apply/:id', 'admin/applysuccess');
     Route::delete('apply/:id', 'admin/applureject');
+    Route::get('videocalladmin', 'admin/videocalladmin');
+
 
 
     // 用户相关

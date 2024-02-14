@@ -12,6 +12,7 @@ use think\facade\Cookie;
 use think\facade\Db;
 use think\facade\Session;
 use think\helper\Str;
+use think\initializer\Error;
 use think\Request;
 use think\response\File;
 use think\response\Json;
@@ -156,8 +157,17 @@ class UserController extends BaseController
         }
 
     }
+    public function videocall (): View
+    {
+        $userid = Session::get('userID');
+        $code = Db::name('selecttime')->where('userid', $userid)->order('id', 'desc')->value('link');
 
-
-
+        if ($code === null) {
+            return view('error', ['message' => 'You have not booked a time yet. Please apply and book a time first.']);
+        }
+        else{
+            return view('user/videocall', ['code' => $code]);
+        }
+    }
 
 }

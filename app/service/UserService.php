@@ -42,9 +42,6 @@ class UserService extends Service
     }
 
 
-
-
-
     public function updateUser(int $userid, array $data): Json
     {
         $user = new User();
@@ -116,8 +113,7 @@ class UserService extends Service
     }
 
 
-
-    public function Statussucess (string $email): Json
+    public function Statussucess(string $email): Json
     {
 
 
@@ -133,7 +129,7 @@ class UserService extends Service
         return $this->app->mailService->sendmail($email, "Request Approved", $content);
     }
 
-    public function Statusreject (string $email): Json
+    public function Statusreject(string $email): Json
     {
 
 
@@ -149,7 +145,7 @@ class UserService extends Service
         return $this->app->mailService->sendmail($email, "Reject request", $content);
     }
 
-    public function Timebooking (string $email, int $userid): Json
+    public function Timebooking(string $email, int $userid): Json
     {
         $link = env("APP.URL");
         // Assuming 'userid' is the column in 'selecttime' table that refers to the user
@@ -177,4 +173,15 @@ class UserService extends Service
         return $this->app->mailService->sendmail($email, "Meeting Booking Success", $content);
 
     }
+
+    public function videocall(int $userid): string
+    {
+
+        $code = Db::name('selecttime')->where('userid', $userid)->order('id', 'desc')->value('link');
+        return $code;
+
+
+    }
 }
+
+
