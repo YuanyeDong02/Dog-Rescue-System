@@ -1,0 +1,39 @@
+{include file="admin/header"}
+
+<head>
+    <title>Dog Management</title>
+    {css href="/static/css/userIndex.css" /}
+</head>
+
+<div class="page-wrapper">
+    <div class="page-header d-print-none">
+        <div class="container-xl"
+             style="width: 100%;
+                 padding-right: 15px;
+                 padding-left: 15px;
+                 margin-right: auto;
+                 margin-left: 20px;">
+            <div class="row g-2 align-items-center">
+                <div class="col">
+                    <h2 class="page-title">
+                        Edit Dog Information
+                    </h2>
+                </div>
+            </div>
+            <div class="page-body">
+                <div class="row row-cols-3 g-3 row-cards">
+                    {volist name="dogs" id="dog"}
+                    <div class="row">
+                        <a data-fslightbox="gallery" href="/admin/dogdetail/{$dog.id}">
+                            <!-- Photo -->
+                            <div class="img-responsive img-responsive-1x1 rounded border" style="background-image: url(/user/dogname/{$dog.id})" ></div>
+                        </a>
+                    </div>
+                    {/volist}
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,196 @@
+{include file="admin/header"}
+<title>Apply form</title>
+<body>
+
+<div class="page-wrapper">
+    <div class="container">
+        <div class="page-content">
+            <div class="card" style="margin-top: 26px">
+
+
+                <h2 class="card-header bg-primary text-white text-center">Dog Details</h2>
+
+                <div class="card-body">
+                    <div class="row">
+
+
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="name">Name</span>
+                                <input autocomplete="off" class="form-control" name="Name" value="{$dog.Name}" type="text">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="Breed">Breed</span>
+                                <input autocomplete="off" class="form-control" name="Breed" value="{$dog.Breed}" type="text" >
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="Age">Age</span>
+                                <input autocomplete="off" class="form-control" name="Age" value="{$dog.Age}" type="text" >
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="Weight">Weight</span>
+                                <input autocomplete="off" class="form-control" name="Weight" value="{$dog.Weight}" type="text" >
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="Colour">Color</span>
+                                <input autocomplete="off" class="form-control" name="Color" value="{$dog.Color}" type="text" >
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-sm-12 col-lg-6">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="Gender">Gender</span>
+                            <input autocomplete="off" class="form-control" name="Gender" value="{$dog.Gender}" type="text" >
+                        </div>
+                    </div>
+
+
+                    <div class="input-group mb-3">
+                        <label class="form-check">
+                            <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="SpayedOrNeutered" {$dog.SpayedOrNeutered? 'checked' : '' }>
+                            <span class="form-check-label">SpayedOrNeutered</span>
+                        </label>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <label class="form-check">
+                            <input class = "form-check-input" type = "checkbox" value = "" id = "VaccinationStatus" name = "VaccinationStatus" {$dog.VaccinationStatus? 'checked' : '' }>
+                            <span class="form-check-label">VaccinationStatus</span>
+                        </label>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <label class="form-check">
+                            <input class = "form-check-input" type = "checkbox" value = "" id = "SpecialNeeds" name = "SpecialNeeds" {$dog.SpecialNeeds? 'checked' : '' }>
+                            <span class="form-check-label">SpecialNeeds</span>
+                        </label>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="AdoptionRestrictions">AdoptionRestrictions</span>
+                        <textarea class="form-control" name="AdoptionRestrictions" required type="text" rows="5">{$dog.AdoptionRestrictions}</textarea>
+                    </div>
+
+
+
+
+
+<!--                    <div class="col-sm-12 col-lg-6">-->
+<!--                        <div class="input-group mb-3">-->
+<!--                            <span class="input-group-text" id="AdoptionStatus">AdoptionStatus</span>-->
+<!--                            <input autocomplete="off" class="form-control" name="AdoptionStatus" value="{$dog.AdoptionStatus}" type="text" >-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+                    <div class="form-floating">
+                        <select class="form-select" id="AdoptionStatus" aria-label="Floating label select example" name="AdoptionStatus" required>
+                            <option selected disabled>Dog Adoption Status : {$dog.AdoptionStatus}</option>
+                            <option value="Available">Available</option>
+                            <option value="Adopted">Adopted</option>
+                            <option value="On Hold">On Hold</option>
+                            <option value="Foster Care">Foster Care</option>
+
+                        </select>
+                        <label for="AdoptionStatus">Select</label>
+                        <br>
+
+                    </div>
+
+
+
+
+
+                    <hr>
+                    <button class="btn btn-primary btn-block submit-button" type="submit">Update
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('.submit-button').on('click', function (event) {
+            // Create FormData object
+            var formData = new FormData();
+
+            // Get the file input element
+
+
+            // Append other form data to FormData
+            formData.append('Name', $('input[name="Name"]').val());
+            formData.append('Breed', $('input[name="Breed"]').val());
+            formData.append('Age', $('input[name="Age"]').val());
+            formData.append('Gender', $('input[name="Gender"]').val());
+            formData.append('Color', $('input[name="Color"]').val());
+            formData.append('Weight', $('input[name="Weight"]').val());
+            formData.append('SpayedOrNeutered', $('input[name="SpayedOrNeutered"]').is(':checked')?1:0);
+            formData.append('VaccinationStatus', $('input[name="VaccinationStatus"]').is(':checked')?1:0);
+            formData.append('SpecialNeeds', $('input[name="SpecialNeeds"]').is(':checked')?1:0);
+            formData.append('AdoptionRestrictions', $('textarea[name="AdoptionRestrictions"]').val());
+            formData.append('AdoptionStatus', $('select[name="AdoptionStatus"]').val());
+
+            // Send the request with FormData
+            fetch('/admin/adminupdate/{$dog.id}', {
+                method: 'POST',
+                body: formData,
+                // Don't set Content-Type, browser will set it to multipart/form-data
+            })
+                .then(function (response) {
+                    if (!response.ok) {
+                        throw new Error('Request failed.');
+                    }
+                    return response.json();
+                })
+                .then(function (result) {
+                    // Handle response
+                    if (result.ret === 1) {
+                        // Success handling
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: result.msg,
+                            showConfirmButton: true,
+                            timer: 2000,
+                            timerProgressBar: true,
+                            allowOutsideClick: false
+                        }).then(function () {
+                            window.location.href = '/admin/dogmanagement';
+                        });
+                    } else {
+                        // Error handling
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: result.msg
+                        });
+                    }
+                })
+                .catch(function (error) {
+                    // Error handling
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'System error/Adoption Status does not Change'
+                    });
+                });
+        });
+    });
+
+
+</script>

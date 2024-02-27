@@ -62,6 +62,10 @@ Route::group('admin', function () {
     Route::put('apply/:id', 'admin/applysuccess');
     Route::delete('apply/:id', 'admin/applureject');
     Route::get('videocalladmin', 'admin/videocalladmin');
+    Route::get('dogmanagement', 'admin/admindogmanagement');
+    Route::get('dogdetail/:id', 'admin/admindogdetail');
+    Route::post('adminupdate/:id', 'admin/updateDog');
+
 
 
 

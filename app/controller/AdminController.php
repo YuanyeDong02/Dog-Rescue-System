@@ -100,14 +100,69 @@ class AdminController extends BaseController
         ]);
     }
 
+    public function admindogmanagement(): View
+    {
+        $dogs = Db::table('newdog')->select();
+        return view('admin/dogmanagement', [
+            'dogs' => $dogs
+        ]);
+    }
+    public function admindogname($id): ?File
+    {
+        $photo = Db::table('newdog')->where('id', $id)->select("image");
+        if ($photo->isEmpty()) {
+            return null;
+        } else {
+            $filepath = app()->getRootPath() . "storage/". $photo[0]["image"];
+            $file = new File($filepath);
+            return $file;
+        }
+
+    }
+
+    public function admindogdetail($id): View
+    {
+        $dog = Db::table('newdog')->where('id', $id)->find();
+        return view('admin/AdminDogDetail', ['dog' => $dog]);
+    }
+
+
+    public function updateDog(Request $request)
+    {
+        $id = $request->param('id');
+        $data = array();
+        $data['Name'] = $request->param('Name');
+        $data['Breed'] = $request->param('Breed');
+        $data['Age'] = $request->param('Age');
+        $data['Gender'] = $request->param('Gender');
+        $data['Color'] = $request->param('Color');
+        $data['Weight'] = $request->param('Weight');
+        $data['SpayedOrNeutered'] = $request->param('SpayedOrNeutered');
+        $data['VaccinationStatus'] = $request->param('VaccinationStatus');
+        $data['SpecialNeeds'] = $request->param('SpecialNeeds');
+        $data['AdoptionRestrictions'] = $request->param('AdoptionRestrictions');
+        $data['AdoptionStatus'] = $request->param('AdoptionStatus');
+
+
+        $dog = Db::table('newdog')->where('id', $id)->find();
+        if (!$dog) {
+            return json(['ret' => 0, 'msg' => 'Dog does not exist']);
+        }
+
+        foreach ($data as $key => $value) {
+            if ($value !== null) {
+                $dog[$key] = $value;
+            }
+        }
+
+
+        Db::table('newdog')->where('id', $id)->update($data);
 
 
 
 
-
-
-
-
+        return json(['ret' => 1, 'msg' => 'Dog updated successfully' ]);
+    }
 
 
     public function users(): View
