@@ -13,7 +13,7 @@ use function redirect;
 class Auth
 {
     /**
-     * 处理请求
+     *
      *
      * @param Request $request
      * @param Closure $next
@@ -22,15 +22,14 @@ class Auth
     public function handle($request, Closure $next)
     {
         if (Session::get("userID") != null) {
-            // 存在session，用户已登录
+
             return redirect("/user/index");
-        } // 检查cookie
+        }
         $authService = app(AuthService::class);
         if ($authService->rememberLogin()) {
-            // cookie有效，用户已登录
+
             return redirect("/user/index");
         } else {
-            // 用户未登录
             return $next($request);
         }
     }

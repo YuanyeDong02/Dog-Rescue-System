@@ -13,22 +13,22 @@ class Admin
     {
         $userID = Session::get("userID");
         if ($userID == null) {
-            // 未登录
+
             $authService = app(AuthService::class);
             if ($authService->rememberLogin()) {
-                // cookie有效，用户已登录
+
                 return $next($request);
             } else {
                  return redirect("/auth/login");
             }
-        } // 检查权限
+        }
         if (isAdmin($userID)) {
-            // 是否有权限
+
             return $next($request);
         } else {
-            // 无权限
+
             return view('/error', [
-                'msg' => '无权限'
+                'msg' => 'No Authority'
             ]);
         }
     }
